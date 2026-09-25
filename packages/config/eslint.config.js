@@ -21,6 +21,7 @@ const ignores = [
   '**/build/**',
   '**/.next/**',
   '**/coverage/**',
+  '**/coverage-int/**',
   '**/playwright-report/**',
   '**/test-results/**',
   '**/*.config.js',

@@ -5,6 +5,7 @@ import { connectValkey, createValkeyClient } from '../../src/lib/valkey';
 import { createPorts, type Ports } from '../../src/ports';
 import { FakeEmailAdapter } from '../../src/ports/adapters/fake-email';
 
+import { getPrisma, getPrismaRaw } from './db';
 import { buildTestEnv } from './env';
 
 export interface TestApp {
@@ -26,7 +27,8 @@ export const buildTestApp = async (options: TestAppOptions = {}): Promise<TestAp
   const ports = createPorts(env, options.ports);
   const valkey = createValkeyClient(env.VALKEY_URL);
   await connectValkey(valkey);
-  const app = await buildApp({ env, ports, valkey, logger: false });
+  const db = { prisma: getPrisma(), raw: getPrismaRaw() };
+  const app = await buildApp({ env, ports, valkey, db, disconnectDbOnClose: false, logger: false });
   await app.ready();
   return {
     app,

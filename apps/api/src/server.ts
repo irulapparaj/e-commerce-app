@@ -1,6 +1,7 @@
 import { apiEnvSchema, loadEnv } from '@pe/shared';
 
 import { buildApp } from './app';
+import { createDb } from './db/prisma';
 import { connectValkey, createValkeyClient } from './lib/valkey';
 import { createPorts } from './ports';
 
@@ -12,7 +13,8 @@ const main = async (): Promise<void> => {
   const valkey = createValkeyClient(env.VALKEY_URL, (error) => {
     console.error(`valkey: ${error.message}`);
   });
-  const app = await buildApp({ env, ports, valkey });
+  const db = createDb(env.DATABASE_URL, ports.keys);
+  const app = await buildApp({ env, ports, valkey, db });
 
   if (!(await connectValkey(valkey)))
     app.log.warn('valkey unavailable at boot; readiness will report it');

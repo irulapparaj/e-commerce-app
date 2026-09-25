@@ -4,6 +4,7 @@ import { buildApp } from '../../src/app';
 import { createValkeyClient } from '../../src/lib/valkey';
 import { createPorts } from '../../src/ports';
 import { buildTestApp, type TestApp } from '../helpers/app';
+import { getPrisma, getPrismaRaw } from '../helpers/db';
 import { buildTestEnv } from '../helpers/env';
 
 describe('health endpoints', () => {
@@ -30,7 +31,7 @@ describe('health endpoints', () => {
     expect(res.statusCode).toBe(200);
     expect(res.json()).toEqual({
       success: true,
-      data: { status: 'ready', checks: { valkey: 'ok', storage: 'ok' } },
+      data: { status: 'ready', checks: { valkey: 'ok', storage: 'ok', database: 'ok' } },
       error: null,
     });
   });
@@ -38,7 +39,15 @@ describe('health endpoints', () => {
   it('answers /readyz with 503 when Valkey is unreachable', async () => {
     const env = buildTestEnv({ VALKEY_URL: 'redis://127.0.0.1:1' });
     const valkey = createValkeyClient(env.VALKEY_URL);
-    const app = await buildApp({ env, ports: createPorts(env), valkey, logger: false });
+    const db = { prisma: getPrisma(), raw: getPrismaRaw() };
+    const app = await buildApp({
+      env,
+      ports: createPorts(env),
+      valkey,
+      db,
+      disconnectDbOnClose: false,
+      logger: false,
+    });
 
     const res = await app.inject({ method: 'GET', url: '/readyz' });
 
@@ -49,6 +58,7 @@ describe('health endpoints', () => {
     expect(body.error.code).toBe('SERVICE_UNAVAILABLE');
     expect(body.error.details.checks.valkey).not.toBe('ok');
     expect(body.error.details.checks.storage).toBe('ok');
+    expect(body.error.details.checks.database).toBe('ok');
     await app.close();
     valkey.disconnect();
   });

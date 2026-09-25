@@ -1,0 +1,98 @@
+[
+  {
+    "slug": "agarbatti",
+    "name": "Agarbatti",
+    "sortOrder": 1,
+    "children": [
+      "Bambooless",
+      "Premium",
+      "Royale Masala",
+      "Royale Luxury",
+      "Pouch Packs",
+      "Tube Packs",
+      "Sleeve Packs",
+      "Roll Packs",
+      "Hexa Packs",
+      "Long Garden",
+      "Mosquito Repellent",
+      "Flora",
+      "Combos"
+    ]
+  },
+  {
+    "slug": "dhoop",
+    "name": "Dhoop",
+    "sortOrder": 2,
+    "children": [
+      "Wet Dhoop",
+      "Dhoop Sticks",
+      "Dhoop Stick Jar",
+      "Perfume Dhoop",
+      "Stem Sticks",
+      "Dhoop Cones",
+      "Masala Cones",
+      "Tube Packs",
+      "Jar Packs",
+      "Roll Packs",
+      "Pouch Packs",
+      "Combos"
+    ]
+  },
+  {
+    "slug": "puja-samagri",
+    "name": "Puja Samagri",
+    "sortOrder": 3,
+    "children": [
+      "Camphor",
+      "Kapur Dani",
+      "Lubaan Daani",
+      "Sambrani Hawan Cups",
+      "Wet Tika",
+      "Dry Tika",
+      "Puja Wick",
+      "Hawan Samagri",
+      "Gangajal",
+      "Shining Powder",
+      "Smudge Stick",
+      "Combos"
+    ]
+  },
+  {
+    "slug": "air-care",
+    "name": "Air Care",
+    "sortOrder": 4,
+    "children": [
+      "Bulb Diffusers",
+      "Aroma Oils (Bulb)",
+      "Humidifiers",
+      "Aroma Oils (Ultrasonic)",
+      "Reed Diffusers",
+      "Car Diffusers",
+      "Room Freshener Spray",
+      "Combos"
+    ]
+  },
+  {
+    "slug": "home-fragrance",
+    "name": "Home Fragrance",
+    "sortOrder": 5,
+    "children": ["Scented Candles", "Gel Fresheners", "Bakhoor", "Combos"]
+  },
+  {
+    "slug": "body-fragrance",
+    "name": "Body Fragrance",
+    "sortOrder": 6,
+    "children": ["Belle Essence Parfum", "Perfumes (Men)", "Perfumes (Women)", "Attar", "Combos"]
+  },
+  {
+    "slug": "more",
+    "name": "More",
+    "sortOrder": 7,
+    "children": [
+      "Backflow Incense Burners",
+      "Gifting Items",
+      "Festive Special",
+      "Nirvana Aromatic Indulgence"
+    ]
+  }
+]

@@ -1,5 +1,7 @@
 import { defineConfig } from 'vitest/config';
 
+import { apiUnitCoverageExclude } from './apps/api/vitest.config';
+
 export default defineConfig({
   test: {
     projects: ['packages/shared', 'apps/api', 'apps/web'],
@@ -8,7 +10,12 @@ export default defineConfig({
       reporter: ['text', 'lcov'],
       reportsDirectory: './coverage',
       include: ['packages/shared/src/**', 'apps/api/src/**', 'apps/web/lib/**'],
-      exclude: ['**/*.test.ts', '**/*.d.ts', '**/index.ts', 'apps/api/src/server.ts'],
+      exclude: [
+        '**/*.test.ts',
+        '**/*.d.ts',
+        '**/index.ts',
+        ...apiUnitCoverageExclude.map((pattern) => `apps/api/${pattern}`),
+      ],
       thresholds: {
         lines: 80,
         branches: 80,

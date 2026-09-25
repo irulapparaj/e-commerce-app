@@ -11,10 +11,12 @@ import {
 } from 'fastify-type-provider-zod';
 import type Redis from 'ioredis';
 
+import type { Db } from './db/prisma';
 import { errorHandlerPlugin } from './plugins/error-handler';
 import { healthPlugin } from './plugins/health';
 import { buildLoggerOptions, type LoggerOptions } from './plugins/logger';
 import { metricsPlugin } from './plugins/metrics';
+import { prismaPlugin } from './plugins/prisma';
 import type { Ports } from './ports';
 
 const BODY_LIMIT_BYTES = 1_048_576;
@@ -23,6 +25,8 @@ export interface BuildAppOptions {
   readonly env: ApiEnv;
   readonly ports: Ports;
   readonly valkey: Redis;
+  readonly db: Db;
+  readonly disconnectDbOnClose?: boolean;
   readonly logger?: LoggerOptions | false;
 }
 
@@ -64,6 +68,10 @@ export const buildApp = async (options: BuildAppOptions): Promise<App> => {
   await app.register(errorHandlerPlugin);
   await app.register(metricsPlugin);
   await app.register(healthPlugin);
+  await app.register(prismaPlugin, {
+    db: options.db,
+    disconnectOnClose: options.disconnectDbOnClose ?? true,
+  });
   registerReadinessChecks(options, app);
 
   return app;

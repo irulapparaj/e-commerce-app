@@ -11,5 +11,13 @@ export default defineConfig({
     testTimeout: 30_000,
     hookTimeout: 180_000,
     teardownTimeout: 30_000,
+    coverage: {
+      enabled: true,
+      provider: 'v8',
+      reportsDirectory: './coverage-int',
+      include: ['src/db/**', 'src/modules/inventory/**'],
+      exclude: ['src/**/*.test.ts', 'src/db/index.ts'],
+      thresholds: { lines: 95, branches: 80, functions: 95, statements: 95 },
+    },
   },
 });

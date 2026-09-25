@@ -69,8 +69,18 @@ pnpm test:int
 
 - Unit tests live beside the code (`*.test.ts`); integration tests in `apps/api/test/int`, security tests in `apps/api/test/security`.
 - The database, Valkey, MinIO and Mailpit are never mocked in integration tests; only external HTTP (Razorpay, Shiprocket) is.
-- Coverage: 80 % lines/branches/functions per package; 95 % for `packages/shared/src/{money,tax}` and, from later plans, `apps/api/src/modules/{auth,cart,orders,payments,tax}`.
+- Coverage: 80 % lines/branches/functions per package; 95 % for `packages/shared/src/{money,tax}` and `apps/api/src/{db,modules/inventory}` (measured by the integration run, `coverage-int/`), and from later plans `apps/api/src/modules/{auth,cart,orders,payments,tax}`.
 - `NODE_ENV=test` unlocks `RATE_LIMIT_MULTIPLIER` and the fake email adapter; both are rejected at boot otherwise.
+
+## Database
+
+- Schema: `apps/api/prisma/schema.prisma` (every DESIGN.md §7 model); migrations under `apps/api/prisma/migrations`.
+- Objects Prisma cannot express live as hand-written SQL inside the migration files: the generated `product.search_vector` column, trigram indexes, check constraints, append-only triggers on `audit_log` and `stock_movement`, the per-year `order_number_seq_YYYY` sequences with `next_order_number()`, and the `app_rw` / `app_migrate` roles. Never edit a migration that has been applied; add a new one.
+- Roles: `app_migrate` owns the schema; `app_rw` is what the application should connect as in Phase 2 (no `UPDATE`/`DELETE` on the ledger tables). Locally and in CI the superuser is used and the triggers are what tests assert.
+- Drift check: `pnpm db:drift` (needs `SHADOW_DATABASE_URL`) compares migrations with the schema. Its only allow-listed statement is the `search_vector` "default" Prisma reports for the generated column; the list lives in `scripts/check-migration-drift.mjs`.
+- Field-level encryption: `apps/api/src/db/encrypted-fields.ts` declares the PII columns and JSON paths; the Prisma extension encrypts on write, decrypts on read and maintains `phoneHmac`. Use `prismaRaw` only where ciphertext is intended (exports, tests).
+- Stock: `applyMovement()` in `apps/api/src/modules/inventory` is the only writer of `product_variant.stock`; every change is a `stock_movement` row.
+- Seed: `pnpm db:seed` loads the §2.2 taxonomy, 24 products, `admin@example.test` (MFA not yet enrolled) and `site_setting` defaults; it is idempotent.
 
 ## Adding an environment variable
 

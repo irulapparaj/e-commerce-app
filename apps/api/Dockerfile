@@ -17,7 +17,8 @@ COPY apps/api apps/api
 RUN pnpm --filter @pe/api db:generate && pnpm --filter @pe/api build
 RUN pnpm --filter @pe/api deploy --legacy --prod /out \
   && cp -r apps/api/dist /out/dist \
-  && cd /out && pnpm exec prisma generate
+  && cd /out && pnpm exec prisma generate \
+  && rm -rf /out/src /out/test /out/tsup.config.ts /out/vitest.config.ts /out/vitest.int.config.ts
 
 FROM node:22-alpine AS runtime
 ENV NODE_ENV=production
@@ -28,4 +29,5 @@ USER app
 EXPOSE 4000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
   CMD wget -qO- http://127.0.0.1:4000/healthz || exit 1
+# One-shot migration job (DESIGN §4.2): `node_modules/.bin/prisma migrate deploy && node dist/seed.js`
 CMD ["node", "dist/server.js"]

@@ -7,7 +7,7 @@ const API_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const PRISMA_BIN = resolve(API_ROOT, 'node_modules/.bin/prisma');
 const MIGRATIONS_DIR = resolve(API_ROOT, 'prisma/migrations');
 
-/** Applies committed migrations once per test run. A no-op until P02 adds the schema. */
+/** Applies committed migrations once per test run (globalSetup). */
 export const migrateTestDatabase = async (databaseUrl: string): Promise<void> => {
   if (!existsSync(MIGRATIONS_DIR)) return;
   execFileSync(PRISMA_BIN, ['migrate', 'deploy'], {

@@ -1,0 +1,624 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------------------------
+// Enums (DESIGN.md §7)
+// ---------------------------------------------------------------------------------------------
+
+enum Role {
+  CUSTOMER
+  ADMIN
+  STAFF
+}
+
+enum Locale {
+  en
+}
+
+enum RefreshAudience {
+  STOREFRONT
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  DISPATCHED
+  IN_TRANSIT
+  DELIVERED
+  CANCELLED
+  RETURNED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  PARTIALLY_REFUNDED
+  PARTIALLY_PAID
+}
+
+enum StockReason {
+  ORDER_RESERVE
+  ORDER_RELEASE
+  SALE
+  RETURN_RESTOCK
+  ADJUSTMENT
+  IMPORT
+}
+
+enum ImportStatus {
+  UPLOADED
+  VALIDATED
+  APPLIED
+  FAILED
+}
+
+enum ImportType {
+  PRODUCTS
+}
+
+enum ReturnReason {
+  DAMAGED_IN_TRANSIT
+  WRONG_ITEM
+  EXPIRED
+}
+
+enum ReturnStatus {
+  REQUESTED
+  APPROVED
+  REJECTED
+  PICKUP_SCHEDULED
+  RECEIVED
+  QC_PASSED
+  QC_FAILED
+  REFUNDED
+  REPLACED
+}
+
+enum ReturnResolution {
+  REFUND
+  REPLACEMENT
+}
+
+enum WebhookProvider {
+  RAZORPAY
+  SHIPROCKET
+  EMAIL
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum CouponType {
+  PERCENT
+  FIXED
+}
+
+enum BlogStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum SuppressionReason {
+  BOUNCE
+  COMPLAINT
+  UNSUBSCRIBE
+}
+
+enum StatusSource {
+  SYSTEM
+  ADMIN
+  WEBHOOK
+}
+
+// ---------------------------------------------------------------------------------------------
+// Identity
+// ---------------------------------------------------------------------------------------------
+
+model User {
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email            String    @unique
+  name             String?
+  locale           Locale    @default(en)
+  /// Encrypted at rest via KeyProvider (see src/db/encrypted-fields.ts)
+  phone            String?
+  /// HMAC-SHA256 blind index of phone; equality lookups only
+  phoneHmac        String?   @map("phone_hmac")
+  role             Role      @default(CUSTOMER)
+  isDisabled       Boolean   @default(false) @map("is_disabled")
+  mfaEnabled       Boolean   @default(false) @map("mfa_enabled")
+  /// AES-256-GCM envelope via KeyProvider
+  totpSecret       String?   @map("totp_secret")
+  /// SHA-256 hashes; consumed on use
+  mfaRecoveryCodes String[]  @default([]) @map("mfa_recovery_codes")
+  deletedAt        DateTime? @map("deleted_at") @db.Timestamptz(3)
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt        DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  refreshTokens     RefreshToken[]
+  addresses         Address[]
+  orders            Order[]
+  orderStatusEvents OrderStatusEvent[]
+  stockMovements    StockMovement[]
+  importJobs        ImportJob[]
+  returnRequests    ReturnRequest[]    @relation("ReturnRequester")
+  reviewedReturns   ReturnRequest[]    @relation("ReturnReviewer")
+  auditLogs         AuditLog[]
+  reviews           Review[]
+  wishlistItems     WishlistItem[]
+  blogPosts         BlogPost[]
+
+  @@index([phoneHmac])
+  @@index([role])
+  @@map("user")
+}
+
+model RefreshToken {
+  id         String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId     String          @map("user_id") @db.Uuid
+  familyId   String          @map("family_id") @db.Uuid
+  audience   RefreshAudience
+  tokenHash  String          @unique @map("token_hash")
+  expiresAt  DateTime        @map("expires_at") @db.Timestamptz(3)
+  lastUsedAt DateTime        @default(now()) @map("last_used_at") @db.Timestamptz(3)
+  revokedAt  DateTime?       @map("revoked_at") @db.Timestamptz(3)
+  ip         String?
+  userAgent  String?         @map("user_agent")
+  createdAt  DateTime        @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([familyId])
+  @@map("refresh_token")
+}
+
+model Address {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  name      String
+  /// Encrypted at rest
+  phone     String
+  /// Encrypted at rest
+  line1     String
+  /// Encrypted at rest
+  line2     String?
+  city      String
+  /// Two-letter state code from packages/shared constants; drives CGST+SGST vs IGST
+  state     String
+  pincode   String   @db.Char(6)
+  isDefault Boolean  @default(false) @map("is_default")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("address")
+}
+
+// ---------------------------------------------------------------------------------------------
+// Catalogue
+// ---------------------------------------------------------------------------------------------
+
+model Category {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String
+  slug            String   @unique
+  parentId        String?  @map("parent_id") @db.Uuid
+  imageKey        String?  @map("image_key")
+  sortOrder       Int      @default(0) @map("sort_order")
+  metaTitle       String?  @map("meta_title")
+  metaDescription String?  @map("meta_description")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  parent   Category?  @relation("CategoryTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children Category[] @relation("CategoryTree")
+  products Product[]
+
+  @@index([parentId])
+  @@index([sortOrder])
+  @@index([name(ops: raw("gin_trgm_ops"))], type: Gin)
+  @@map("category")
+}
+
+model Product {
+  id              String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String
+  slug            String                   @unique
+  /// Import upsert key
+  sku             String                   @unique
+  /// Tiptap document, schema-validated; sanitised at render
+  description     Json                     @default("{}")
+  specifications  Json                     @default("{}")
+  howToUse        String?                  @map("how_to_use")
+  categoryId      String                   @map("category_id") @db.Uuid
+  hsnCode         String                   @map("hsn_code")
+  gstRate         Decimal                  @map("gst_rate") @db.Decimal(5, 2)
+  tags            String[]                 @default([])
+  isActive        Boolean                  @default(true) @map("is_active")
+  isFeatured      Boolean                  @default(false) @map("is_featured")
+  /// Generated column (migration SQL); Phase 1 search
+  searchVector    Unsupported("tsvector")? @map("search_vector")
+  metaTitle       String?                  @map("meta_title")
+  metaDescription String?                  @map("meta_description")
+  createdAt       DateTime                 @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt       DateTime                 @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  category Category         @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  variants ProductVariant[]
+  images   ProductImage[]
+  reviews  Review[]
+
+  @@index([categoryId])
+  @@index([isActive, isFeatured])
+  @@index([searchVector], type: Gin)
+  @@index([name(ops: raw("gin_trgm_ops"))], type: Gin)
+  @@map("product")
+}
+
+model ProductVariant {
+  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId         String   @map("product_id") @db.Uuid
+  sku               String   @unique
+  label             String
+  /// Paise, GST-inclusive
+  price             Int
+  compareAtPrice    Int?     @map("compare_at_price")
+  /// Cached; StockMovement is the ledger and applyMovement() the only writer
+  stock             Int      @default(0)
+  lowStockThreshold Int      @default(10) @map("low_stock_threshold")
+  weightGrams       Int      @map("weight_grams")
+  isDefault         Boolean  @default(false) @map("is_default")
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt         DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  product       Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  movements     StockMovement[]
+  orderItems    OrderItem[]
+  wishlistItems WishlistItem[]
+
+  @@index([productId])
+  @@map("product_variant")
+}
+
+model ProductImage {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId String   @map("product_id") @db.Uuid
+  /// Server-generated object key in the media bucket
+  objectKey String   @map("object_key")
+  alt       String   @default("")
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@map("product_image")
+}
+
+/// Append-only ledger (trigger + grants); variant.stock is a cache of sum(delta)
+model StockMovement {
+  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  variantId   String      @map("variant_id") @db.Uuid
+  delta       Int
+  reason      StockReason
+  /// orderId | importJobId | returnRequestId
+  referenceId String?     @map("reference_id") @db.Uuid
+  actorId     String?     @map("actor_id") @db.Uuid
+  note        String?
+  createdAt   DateTime    @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  variant ProductVariant @relation(fields: [variantId], references: [id], onDelete: Restrict)
+  actor   User?          @relation(fields: [actorId], references: [id], onDelete: Restrict)
+
+  @@index([variantId])
+  @@index([referenceId])
+  @@index([actorId])
+  @@map("stock_movement")
+}
+
+model ImportJob {
+  id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  actorId        String       @map("actor_id") @db.Uuid
+  type           ImportType   @default(PRODUCTS)
+  /// Object key under imports/ (30-day lifecycle)
+  fileKey        String       @map("file_key")
+  status         ImportStatus @default(UPLOADED)
+  totalRows      Int          @default(0) @map("total_rows")
+  okRows         Int          @default(0) @map("ok_rows")
+  errorRows      Int          @default(0) @map("error_rows")
+  errorReportKey String?      @map("error_report_key")
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  appliedAt      DateTime?    @map("applied_at") @db.Timestamptz(3)
+
+  actor User @relation(fields: [actorId], references: [id], onDelete: Restrict)
+
+  @@index([actorId])
+  @@index([status])
+  @@map("import_job")
+}
+
+// ---------------------------------------------------------------------------------------------
+// Orders
+// ---------------------------------------------------------------------------------------------
+
+model Order {
+  id                String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  /// PE-YYYYNNNN from next_order_number(); invoices only
+  orderNumber       String        @unique @map("order_number")
+  userId            String        @map("user_id") @db.Uuid
+  email             String
+  /// Encrypted at rest
+  phone             String
+  /// Maintained by the encryption extension from `phone`; never set by application code
+  phoneHmac         String        @default("") @map("phone_hmac")
+  /// Snapshot; line1/line2/phone encrypted (see encrypted-fields.ts)
+  shippingAddress   Json          @map("shipping_address")
+  destinationState  String        @map("destination_state")
+  subtotal          Int
+  shippingAmount    Int           @default(0) @map("shipping_amount")
+  discountAmount    Int           @default(0) @map("discount_amount")
+  cgstAmount        Int           @default(0) @map("cgst_amount")
+  sgstAmount        Int           @default(0) @map("sgst_amount")
+  igstAmount        Int           @default(0) @map("igst_amount")
+  total             Int
+  status            OrderStatus   @default(PENDING)
+  paymentStatus     PaymentStatus @default(PENDING) @map("payment_status")
+  razorpayOrderId   String?       @map("razorpay_order_id")
+  razorpayPaymentId String?       @unique @map("razorpay_payment_id")
+  couponCode        String?       @map("coupon_code")
+  trackingNumber    String?       @map("tracking_number")
+  /// Must be in the courier allow-list
+  courierName       String?       @map("courier_name")
+  shiprocketOrderId String?       @map("shiprocket_order_id")
+  notes             String?
+  createdAt         DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt         DateTime      @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  user           User               @relation(fields: [userId], references: [id], onDelete: Restrict)
+  items          OrderItem[]
+  statusEvents   OrderStatusEvent[]
+  returnRequests ReturnRequest[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([paymentStatus])
+  @@index([phoneHmac])
+  @@index([createdAt])
+  @@map("order")
+}
+
+model OrderItem {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  orderId      String   @map("order_id") @db.Uuid
+  variantId    String   @map("variant_id") @db.Uuid
+  productName  String   @map("product_name")
+  variantLabel String   @map("variant_label")
+  sku          String
+  unitPrice    Int      @map("unit_price")
+  quantity     Int
+  hsnCode      String   @map("hsn_code")
+  gstRate      Decimal  @map("gst_rate") @db.Decimal(5, 2)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  order          Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  variant        ProductVariant  @relation(fields: [variantId], references: [id], onDelete: Restrict)
+  review         Review?
+  returnRequests ReturnRequest[]
+
+  @@index([orderId])
+  @@index([variantId])
+  @@map("order_item")
+}
+
+model OrderStatusEvent {
+  id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  orderId   String       @map("order_id") @db.Uuid
+  status    OrderStatus
+  note      String?
+  source    StatusSource
+  actorId   String?      @map("actor_id") @db.Uuid
+  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  actor User? @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([orderId])
+  @@index([actorId])
+  @@map("order_status_event")
+}
+
+model ReturnRequest {
+  id                 String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  orderId            String            @map("order_id") @db.Uuid
+  orderItemId        String            @map("order_item_id") @db.Uuid
+  userId             String            @map("user_id") @db.Uuid
+  reason             ReturnReason
+  description        String            @db.VarChar(1000)
+  /// 1–4 keys in the private bucket, served via signed GET
+  photoKeys          String[]          @map("photo_keys")
+  status             ReturnStatus      @default(REQUESTED)
+  resolution         ReturnResolution?
+  pickupAwb          String?           @map("pickup_awb")
+  qcNote             String?           @map("qc_note")
+  /// Paise; reverse-pickup charge when QC fails
+  deductionAmount    Int               @default(0) @map("deduction_amount")
+  refundAmount       Int?              @map("refund_amount")
+  razorpayRefundId   String?           @map("razorpay_refund_id")
+  replacementOrderId String?           @map("replacement_order_id") @db.Uuid
+  reviewedBy         String?           @map("reviewed_by") @db.Uuid
+  createdAt          DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
+  resolvedAt         DateTime?         @map("resolved_at") @db.Timestamptz(3)
+  updatedAt          DateTime          @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  order     Order     @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  orderItem OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Restrict)
+  user      User      @relation("ReturnRequester", fields: [userId], references: [id], onDelete: Restrict)
+  reviewer  User?     @relation("ReturnReviewer", fields: [reviewedBy], references: [id], onDelete: SetNull)
+
+  @@index([orderId])
+  @@index([orderItemId])
+  @@index([userId])
+  @@index([reviewedBy])
+  @@index([status])
+  @@map("return_request")
+}
+
+// ---------------------------------------------------------------------------------------------
+// Integrations and governance
+// ---------------------------------------------------------------------------------------------
+
+model WebhookEvent {
+  id             String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  provider       WebhookProvider
+  externalId     String          @map("external_id")
+  signatureValid Boolean         @map("signature_valid")
+  /// Raw provider payload; ADMIN-only; redacted at log/export
+  payload        Json
+  processedAt    DateTime?       @map("processed_at") @db.Timestamptz(3)
+  error          String?
+  createdAt      DateTime        @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@unique([provider, externalId])
+  @@index([processedAt])
+  @@map("webhook_event")
+}
+
+/// Append-only (trigger + grants)
+model AuditLog {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  actorId    String?  @map("actor_id") @db.Uuid
+  action     String
+  entityType String   @map("entity_type")
+  entityId   String?  @map("entity_id")
+  before     Json?
+  /// PII-redacted
+  after      Json?
+  ip         String?
+  userAgent  String?  @map("user_agent")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  actor User? @relation(fields: [actorId], references: [id], onDelete: Restrict)
+
+  @@index([actorId])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("audit_log")
+}
+
+// ---------------------------------------------------------------------------------------------
+// Engagement and content
+// ---------------------------------------------------------------------------------------------
+
+/// Verified purchase: one per order item, moderated
+model Review {
+  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId   String       @map("product_id") @db.Uuid
+  orderItemId String       @unique @map("order_item_id") @db.Uuid
+  userId      String       @map("user_id") @db.Uuid
+  rating      Int
+  title       String?
+  body        String       @db.VarChar(2000)
+  status      ReviewStatus @default(PENDING)
+  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime     @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  orderItem OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([productId, status])
+  @@index([userId])
+  @@map("review")
+}
+
+model WishlistItem {
+  userId    String   @map("user_id") @db.Uuid
+  variantId String   @map("variant_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  user    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  variant ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@id([userId, variantId])
+  @@index([variantId])
+  @@map("wishlist_item")
+}
+
+model Coupon {
+  id           String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code         String     @unique
+  type         CouponType
+  /// PERCENT: whole percent; FIXED: paise
+  value        Int
+  minSubtotal  Int        @default(0) @map("min_subtotal")
+  maxDiscount  Int?       @map("max_discount")
+  usageLimit   Int?       @map("usage_limit")
+  /// Incremented atomically at order creation
+  usedCount    Int        @default(0) @map("used_count")
+  perUserLimit Int        @default(1) @map("per_user_limit")
+  stackable    Boolean    @default(false)
+  startsAt     DateTime?  @map("starts_at") @db.Timestamptz(3)
+  endsAt       DateTime?  @map("ends_at") @db.Timestamptz(3)
+  isActive     Boolean    @default(true) @map("is_active")
+  createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt    DateTime   @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@index([isActive, endsAt])
+  @@map("coupon")
+}
+
+model BlogPost {
+  id              String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title           String
+  slug            String     @unique
+  excerpt         String?
+  /// Tiptap document
+  content         Json       @default("{}")
+  coverImageKey   String?    @map("cover_image_key")
+  status          BlogStatus @default(DRAFT)
+  authorId        String?    @map("author_id") @db.Uuid
+  publishedAt     DateTime?  @map("published_at") @db.Timestamptz(3)
+  metaTitle       String?    @map("meta_title")
+  metaDescription String?    @map("meta_description")
+  createdAt       DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt       DateTime   @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  author User? @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  @@index([status, publishedAt])
+  @@index([authorId])
+  @@map("blog_post")
+}
+
+/// Schema-validated settings rows (announcement bar, promo popup, thresholds, brand, GST profile, pickup, return window)
+model SiteSetting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  updatedBy String?  @map("updated_by") @db.Uuid
+
+  @@map("site_setting")
+}
+
+model EmailSuppression {
+  /// SHA-256 of the lowercased address
+  emailHash String            @id @map("email_hash")
+  reason    SuppressionReason
+  createdAt DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@map("email_suppression")
+}

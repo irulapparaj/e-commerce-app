@@ -1,0 +1,467 @@
+[
+  {
+    "sku": "PE-AG-001",
+    "name": "Royale Masala Agarbatti",
+    "category": "agarbatti/royale-masala",
+    "tags": ["masala", "bestseller"],
+    "isFeatured": true,
+    "specifications": {
+      "Quantity": "50 sticks",
+      "Commodity": "Agarbatti",
+      "Brand": "Puja Essentials"
+    },
+    "variants": [
+      {
+        "sku": "PE-AG-001-50",
+        "label": "50 g",
+        "price": "80.00",
+        "compareAtPrice": "95.00",
+        "stock": 120,
+        "weightGrams": 70,
+        "isDefault": true
+      },
+      {
+        "sku": "PE-AG-001-100",
+        "label": "100 g",
+        "price": "150.00",
+        "stock": 80,
+        "weightGrams": 130
+      }
+    ]
+  },
+  {
+    "sku": "PE-AG-002",
+    "name": "Bambooless Sandal Agarbatti",
+    "category": "agarbatti/bambooless",
+    "tags": ["sandal", "bambooless"],
+    "isFeatured": true,
+    "specifications": { "Quantity": "40 sticks", "Commodity": "Agarbatti" },
+    "variants": [
+      {
+        "sku": "PE-AG-002-40",
+        "label": "40 sticks",
+        "price": "120.00",
+        "stock": 60,
+        "weightGrams": 60,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-AG-003",
+    "name": "Long Garden Rose Agarbatti",
+    "category": "agarbatti/long-garden",
+    "tags": ["rose", "garden"],
+    "specifications": { "Quantity": "20 sticks", "Length": "16 inch" },
+    "variants": [
+      {
+        "sku": "PE-AG-003-20",
+        "label": "20 sticks",
+        "price": "199.00",
+        "stock": 40,
+        "weightGrams": 250,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-AG-004",
+    "name": "Citronella Mosquito Repellent Agarbatti",
+    "category": "agarbatti/mosquito-repellent",
+    "tags": ["citronella", "repellent"],
+    "specifications": { "Quantity": "30 sticks" },
+    "variants": [
+      {
+        "sku": "PE-AG-004-30",
+        "label": "30 sticks",
+        "price": "95.00",
+        "stock": 200,
+        "weightGrams": 90,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-AG-005",
+    "name": "Flora Jasmine Agarbatti",
+    "category": "agarbatti/flora",
+    "tags": ["jasmine", "flora"],
+    "specifications": { "Quantity": "100 g" },
+    "variants": [
+      {
+        "sku": "PE-AG-005-100",
+        "label": "100 g",
+        "price": "110.00",
+        "stock": 75,
+        "weightGrams": 120,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-AG-006",
+    "name": "Premium Oudh Agarbatti Pouch",
+    "category": "agarbatti/premium",
+    "tags": ["oudh", "premium"],
+    "specifications": { "Quantity": "25 sticks" },
+    "variants": [
+      {
+        "sku": "PE-AG-006-25",
+        "label": "25 sticks",
+        "price": "249.00",
+        "compareAtPrice": "299.00",
+        "stock": 30,
+        "weightGrams": 60,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-DH-001",
+    "name": "Chandan Wet Dhoop",
+    "category": "dhoop/wet-dhoop",
+    "tags": ["chandan", "wet dhoop"],
+    "isFeatured": true,
+    "specifications": { "Quantity": "20 sticks" },
+    "variants": [
+      {
+        "sku": "PE-DH-001-20",
+        "label": "20 sticks",
+        "price": "70.00",
+        "stock": 150,
+        "weightGrams": 90,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-DH-002",
+    "name": "Guggal Dhoop Sticks",
+    "category": "dhoop/dhoop-sticks",
+    "tags": ["guggal"],
+    "specifications": { "Quantity": "30 sticks" },
+    "variants": [
+      {
+        "sku": "PE-DH-002-30",
+        "label": "30 sticks",
+        "price": "85.00",
+        "stock": 90,
+        "weightGrams": 110,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-DH-003",
+    "name": "Lavender Perfume Dhoop",
+    "category": "dhoop/perfume-dhoop",
+    "tags": ["lavender"],
+    "specifications": { "Quantity": "24 sticks" },
+    "variants": [
+      {
+        "sku": "PE-DH-003-24",
+        "label": "24 sticks",
+        "price": "99.00",
+        "stock": 65,
+        "weightGrams": 100,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-DH-004",
+    "name": "Masala Dhoop Cones",
+    "category": "dhoop/masala-cones",
+    "tags": ["masala", "cones"],
+    "specifications": { "Quantity": "12 cones" },
+    "variants": [
+      {
+        "sku": "PE-DH-004-12",
+        "label": "12 cones",
+        "price": "60.00",
+        "stock": 110,
+        "weightGrams": 80,
+        "isDefault": true
+      },
+      {
+        "sku": "PE-DH-004-36",
+        "label": "36 cones",
+        "price": "160.00",
+        "stock": 40,
+        "weightGrams": 220
+      }
+    ]
+  },
+  {
+    "sku": "PE-DH-005",
+    "name": "Loban Dhoop Stick Jar",
+    "category": "dhoop/dhoop-stick-jar",
+    "tags": ["loban", "jar"],
+    "specifications": { "Quantity": "60 sticks" },
+    "variants": [
+      {
+        "sku": "PE-DH-005-60",
+        "label": "60 sticks",
+        "price": "180.00",
+        "stock": 35,
+        "weightGrams": 300,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-PS-001",
+    "name": "Pure Camphor Tablets",
+    "category": "puja-samagri/camphor",
+    "tags": ["camphor", "kapur"],
+    "isFeatured": true,
+    "hsnCode": "2914",
+    "gstRate": 18,
+    "specifications": { "Quantity": "100 g", "Purity": "99%" },
+    "variants": [
+      {
+        "sku": "PE-PS-001-100",
+        "label": "100 g",
+        "price": "140.00",
+        "stock": 100,
+        "weightGrams": 110,
+        "isDefault": true
+      },
+      {
+        "sku": "PE-PS-001-250",
+        "label": "250 g",
+        "price": "320.00",
+        "stock": 45,
+        "weightGrams": 270
+      }
+    ]
+  },
+  {
+    "sku": "PE-PS-002",
+    "name": "Brass Kapur Dani",
+    "category": "puja-samagri/kapur-dani",
+    "tags": ["brass", "kapur dani"],
+    "hsnCode": "6913",
+    "gstRate": 12,
+    "specifications": { "Material": "Brass", "Height": "8 cm" },
+    "variants": [
+      {
+        "sku": "PE-PS-002-STD",
+        "label": "Standard",
+        "price": "349.00",
+        "stock": 25,
+        "weightGrams": 220,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-PS-003",
+    "name": "Sambrani Hawan Cups",
+    "category": "puja-samagri/sambrani-hawan-cups",
+    "tags": ["sambrani", "hawan"],
+    "hsnCode": "1301",
+    "gstRate": 5,
+    "specifications": { "Quantity": "12 cups" },
+    "variants": [
+      {
+        "sku": "PE-PS-003-12",
+        "label": "12 cups",
+        "price": "120.00",
+        "stock": 130,
+        "weightGrams": 150,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-PS-004",
+    "name": "Cotton Puja Wicks",
+    "category": "puja-samagri/puja-wick",
+    "tags": ["wick", "cotton"],
+    "hsnCode": "5601",
+    "gstRate": 5,
+    "specifications": { "Quantity": "200 wicks" },
+    "variants": [
+      {
+        "sku": "PE-PS-004-200",
+        "label": "200 wicks",
+        "price": "45.00",
+        "stock": 300,
+        "weightGrams": 40,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-PS-005",
+    "name": "Hawan Samagri Mix",
+    "category": "puja-samagri/hawan-samagri",
+    "tags": ["hawan", "samagri"],
+    "specifications": { "Quantity": "250 g" },
+    "variants": [
+      {
+        "sku": "PE-PS-005-250",
+        "label": "250 g",
+        "price": "130.00",
+        "stock": 70,
+        "weightGrams": 260,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-PS-006",
+    "name": "Gangajal 500 ml",
+    "category": "puja-samagri/gangajal",
+    "tags": ["gangajal"],
+    "hsnCode": "2201",
+    "gstRate": 18,
+    "specifications": { "Volume": "500 ml" },
+    "variants": [
+      {
+        "sku": "PE-PS-006-500",
+        "label": "500 ml",
+        "price": "90.00",
+        "stock": 55,
+        "weightGrams": 540,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-AC-001",
+    "name": "Sandalwood Reed Diffuser",
+    "category": "air-care/reed-diffusers",
+    "tags": ["reed", "sandalwood"],
+    "hsnCode": "3301",
+    "gstRate": 18,
+    "specifications": { "Volume": "100 ml", "Reeds": "6" },
+    "variants": [
+      {
+        "sku": "PE-AC-001-100",
+        "label": "100 ml",
+        "price": "499.00",
+        "compareAtPrice": "599.00",
+        "stock": 20,
+        "weightGrams": 350,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-AC-002",
+    "name": "Lemongrass Aroma Oil",
+    "category": "air-care/aroma-oils-ultrasonic",
+    "tags": ["lemongrass", "aroma oil"],
+    "hsnCode": "3301",
+    "gstRate": 18,
+    "specifications": { "Volume": "15 ml" },
+    "variants": [
+      {
+        "sku": "PE-AC-002-15",
+        "label": "15 ml",
+        "price": "199.00",
+        "stock": 60,
+        "weightGrams": 50,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-AC-003",
+    "name": "Mogra Car Diffuser",
+    "category": "air-care/car-diffusers",
+    "tags": ["mogra", "car"],
+    "hsnCode": "3307",
+    "gstRate": 18,
+    "specifications": { "Volume": "8 ml" },
+    "variants": [
+      {
+        "sku": "PE-AC-003-8",
+        "label": "8 ml",
+        "price": "249.00",
+        "stock": 40,
+        "weightGrams": 60,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-HF-001",
+    "name": "Vanilla Scented Candle",
+    "category": "home-fragrance/scented-candles",
+    "tags": ["vanilla", "candle"],
+    "hsnCode": "3406",
+    "gstRate": 12,
+    "specifications": { "Burn time": "30 hours", "Wax": "Soy blend" },
+    "variants": [
+      {
+        "sku": "PE-HF-001-200",
+        "label": "200 g",
+        "price": "399.00",
+        "stock": 30,
+        "weightGrams": 320,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-HF-002",
+    "name": "Oudh Bakhoor Bricks",
+    "category": "home-fragrance/bakhoor",
+    "tags": ["oudh", "bakhoor"],
+    "hsnCode": "3307",
+    "gstRate": 5,
+    "specifications": { "Quantity": "8 bricks" },
+    "variants": [
+      {
+        "sku": "PE-HF-002-8",
+        "label": "8 bricks",
+        "price": "299.00",
+        "stock": 25,
+        "weightGrams": 180,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-BF-001",
+    "name": "Rose Attar",
+    "category": "body-fragrance/attar",
+    "tags": ["rose", "attar"],
+    "hsnCode": "3303",
+    "gstRate": 18,
+    "specifications": { "Volume": "10 ml", "Alcohol": "Free" },
+    "variants": [
+      {
+        "sku": "PE-BF-001-10",
+        "label": "10 ml",
+        "price": "450.00",
+        "stock": 35,
+        "weightGrams": 45,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-MO-001",
+    "name": "Lotus Backflow Incense Burner",
+    "category": "more/backflow-incense-burners",
+    "tags": ["backflow", "burner", "lotus"],
+    "hsnCode": "6913",
+    "gstRate": 12,
+    "specifications": { "Material": "Ceramic", "Includes": "10 backflow cones" },
+    "variants": [
+      {
+        "sku": "PE-MO-001-STD",
+        "label": "Standard",
+        "price": "699.00",
+        "compareAtPrice": "899.00",
+        "stock": 15,
+        "weightGrams": 600,
+        "isDefault": true
+      }
+    ]
+  }
+]
