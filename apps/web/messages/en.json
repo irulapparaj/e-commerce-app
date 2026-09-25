@@ -1,0 +1,12 @@
+{
+  "home": {
+    "title": "Puja Essentials",
+    "tagline": "Everyday devotion, thoughtfully made.",
+    "comingSoon": "Coming soon",
+    "intro": "Agarbatti, dhoop, camphor and puja samagri, dispatched from Chennai."
+  },
+  "admin": {
+    "title": "Admin console",
+    "placeholder": "The admin console arrives with plan P05."
+  }
+}

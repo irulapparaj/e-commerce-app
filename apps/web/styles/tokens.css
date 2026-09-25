@@ -1,0 +1,91 @@
+/* DESIGN.md §16 — "Minimalist & Clean". Every token has a light and a dark value. */
+:root {
+  color-scheme: light;
+
+  --bg: #fbfaf7;
+  --surface: #ffffff;
+  --hairline: #e8e3da;
+
+  --text: #1c1a17;
+  --muted: #6e6862;
+  --subtle: #9a938b;
+
+  --accent: #d9772b;
+  --accent-contrast: #ffffff;
+
+  --success: #2e7b5a;
+  --warning: #b8912a;
+  --critical: #b3261e;
+
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --text-base: 1rem;
+  --text-small: 0.8rem;
+  --text-h3: 1.25rem;
+  --text-h2: clamp(1.5rem, 1.1rem + 1.4vw, 1.953rem);
+  --text-h1: clamp(2rem, 1.2rem + 2.5vw, 3rem);
+  --scale: 1.25;
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-6: 3rem;
+  --space-section: clamp(3rem, 2rem + 4vw, 6rem);
+  --content-max: 1200px;
+  --grid-columns: 12;
+
+  --radius-control: 6px;
+  --radius-image: 2px;
+
+  --shadow-drawer: -12px 0 32px rgba(28, 26, 23, 0.12);
+  --shadow-modal: 0 16px 48px rgba(28, 26, 23, 0.16);
+
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #141210;
+    --surface: #1c1916;
+    --hairline: #2e2a25;
+    --text: #f1ece4;
+    --muted: #b3aca2;
+    --subtle: #7f7870;
+    --accent: #d9772b;
+    --accent-contrast: #141210;
+    --success: #5fb08a;
+    --warning: #d4b04a;
+    --critical: #e0564c;
+    --shadow-drawer: -12px 0 32px rgba(0, 0, 0, 0.5);
+    --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.6);
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #141210;
+  --surface: #1c1916;
+  --hairline: #2e2a25;
+  --text: #f1ece4;
+  --muted: #b3aca2;
+  --subtle: #7f7870;
+  --accent: #d9772b;
+  --accent-contrast: #141210;
+  --success: #5fb08a;
+  --warning: #d4b04a;
+  --critical: #e0564c;
+  --shadow-drawer: -12px 0 32px rgba(0, 0, 0, 0.5);
+  --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-normal: 0ms;
+  }
+}
