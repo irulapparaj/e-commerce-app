@@ -15,6 +15,8 @@ export default defineConfig({
         '**/*.d.ts',
         '**/index.ts',
         ...apiUnitCoverageExclude.map((pattern) => `apps/api/${pattern}`),
+        'apps/web/lib/auth/session.ts',
+        'apps/web/lib/auth/client.ts',
       ],
       thresholds: {
         lines: 80,

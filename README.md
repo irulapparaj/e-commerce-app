@@ -82,6 +82,17 @@ pnpm test:int
 - Stock: `applyMovement()` in `apps/api/src/modules/inventory` is the only writer of `product_variant.stock`; every change is a `stock_movement` row.
 - Seed: `pnpm db:seed` loads the §2.2 taxonomy, 24 products, `admin@example.test` (MFA not yet enrolled) and `site_setting` defaults; it is idempotent.
 
+## Authentication (P03)
+
+- Customers sign in with an emailed one-time code (`POST /api/v1/auth/send-otp` → `verify-otp`); admins and staff then complete TOTP MFA (`/auth/mfa/enrol` on first login, `/auth/mfa/verify` afterwards). Sensitive admin actions need a step-up (`/auth/step-up`, 5 minutes).
+- Access tokens are RS256 JWTs (15 min; 5 min for the `mfa` audience) signed with the active key in `JWT_KEYS_JSON`; the web app verifies them locally with `JWT_PUBLIC_KEYS_JSON`. Rotate keys by adding a new pair, switching `JWT_ACTIVE_KID`, and removing the old pair once its tokens have expired.
+- Refresh tokens are opaque, hashed at rest, rotated on every use and grouped in families: reusing a rotated token revokes the whole family. Storefront sessions last 30 days (7 days idle), admin sessions 8 hours (30 minutes idle).
+- The browser never sees tokens. Next.js route handlers under `apps/web/app/api/auth/*` are the BFF: they hold `__Host-access` / `__Host-refresh` (httpOnly) and `__Host-csrf` (readable) cookies and forward `Authorization: Bearer` to the API. The generic proxy at `app/api/[...path]` enforces CSRF on state changes (Sec-Fetch-Site or Origin plus `X-CSRF-Token` double submit), refreshes once on a 401 and strips cookies in both directions. The API itself never reads cookies.
+- `__Host-` cookies are always `Secure`; use `http://localhost:3000` (a secure context) rather than `127.0.0.1` in development.
+- `middleware.ts` sends unauthenticated visitors of `/checkout` and `/account/**` to `/login?redirect=<relative path>` and gates `/admin/**` on an admin session; the API enforces roles independently.
+- Rate limits (Valkey sliding window): OTP sends 3 per email per 10 minutes and 10 per IP per hour; admin MFA and step-up attempts 10 per IP per hour. `RATE_LIMIT_MULTIPLIER` relaxes them only under `NODE_ENV=test`.
+- Playwright specs for the flows live in `tests/e2e/auth.spec.ts` and run against the compose stack (`docker compose -f docker-compose.yml -f docker-compose.e2e.yml up -d --build`, then `MAILPIT_URL=http://localhost:8025 pnpm test:e2e`); CI wiring is plan P18.
+
 ## Adding an environment variable
 
 1. Add it to `apiEnvSchema` or `webEnvSchema` in `packages/shared/src/env.ts` (Zod, strict).

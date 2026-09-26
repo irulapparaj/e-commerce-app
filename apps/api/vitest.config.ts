@@ -14,6 +14,20 @@ export const apiUnitCoverageExclude = [
   'src/db/encryption-extension.ts',
   'src/plugins/prisma.ts',
   'src/modules/inventory/apply-movement.ts',
+  'src/plugins/auth.ts',
+  'src/plugins/rate-limit.ts',
+  'src/modules/auth/routes.ts',
+  'src/modules/auth/session-routes.ts',
+  'src/modules/auth/mfa-routes.ts',
+  'src/modules/auth/login.service.ts',
+  'src/modules/auth/otp.service.ts',
+  'src/modules/auth/refresh.service.ts',
+  'src/modules/auth/mfa.service.ts',
+  'src/modules/auth/user-state.ts',
+  'src/modules/auth/guards.ts',
+  'src/modules/auth/security-events.ts',
+  'src/modules/auth/emails.ts',
+  'src/modules/staff/**',
 ];
 
 export default defineConfig({

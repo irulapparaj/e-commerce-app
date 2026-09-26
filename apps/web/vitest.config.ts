@@ -5,10 +5,11 @@ export default defineConfig({
     name: 'web',
     environment: 'node',
     include: ['lib/**/*.test.ts', 'app/**/*.test.ts'],
+    setupFiles: ['./test-setup.ts'],
     coverage: {
       provider: 'v8',
       include: ['lib/**'],
-      exclude: ['lib/**/*.test.ts'],
+      exclude: ['lib/**/*.test.ts', 'lib/auth/session.ts', 'lib/auth/client.ts'],
       thresholds: { lines: 80, branches: 80, functions: 80, statements: 80 },
     },
   },

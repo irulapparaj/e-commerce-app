@@ -12,11 +12,17 @@ import {
 import type Redis from 'ioredis';
 
 import type { Db } from './db/prisma';
+import { mfaRoutes } from './modules/auth/mfa-routes';
+import { authRoutes } from './modules/auth/routes';
+import { sessionRoutes } from './modules/auth/session-routes';
+import { staffRoutes } from './modules/staff/routes';
+import { authPlugin } from './plugins/auth';
 import { errorHandlerPlugin } from './plugins/error-handler';
 import { healthPlugin } from './plugins/health';
 import { buildLoggerOptions, type LoggerOptions } from './plugins/logger';
 import { metricsPlugin } from './plugins/metrics';
 import { prismaPlugin } from './plugins/prisma';
+import { rateLimitPlugin } from './plugins/rate-limit';
 import type { Ports } from './ports';
 
 const BODY_LIMIT_BYTES = 1_048_576;
@@ -28,7 +34,11 @@ export interface BuildAppOptions {
   readonly db: Db;
   readonly disconnectDbOnClose?: boolean;
   readonly logger?: LoggerOptions | false;
+  /** Injectable clock for tests (token expiry, refresh TTLs, step-up windows). */
+  readonly now?: () => Date;
 }
+
+export const API_PREFIX = '/api/v1';
 
 export type App = FastifyInstance;
 
@@ -73,6 +83,13 @@ export const buildApp = async (options: BuildAppOptions): Promise<App> => {
     disconnectOnClose: options.disconnectDbOnClose ?? true,
   });
   registerReadinessChecks(options, app);
+
+  await app.register(rateLimitPlugin);
+  await app.register(authPlugin, options.now === undefined ? {} : { now: options.now });
+  await app.register(authRoutes, { prefix: API_PREFIX });
+  await app.register(mfaRoutes, { prefix: API_PREFIX });
+  await app.register(sessionRoutes, { prefix: API_PREFIX });
+  await app.register(staffRoutes, { prefix: API_PREFIX });
 
   return app;
 };

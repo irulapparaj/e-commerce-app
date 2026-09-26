@@ -47,6 +47,10 @@ const handleKnownError = (error: FastifyError, reply: FastifyReply): boolean => 
     return true;
   }
   if (isAppError(error)) {
+    const retryAfter = (error.details as { retryAfterSeconds?: number } | undefined)
+      ?.retryAfterSeconds;
+    if (error.code === 'RATE_LIMITED' && retryAfter !== undefined)
+      void reply.header('retry-after', String(retryAfter));
     void sendError(reply, error.httpStatus, error.code, error.message, error.details);
     return true;
   }
