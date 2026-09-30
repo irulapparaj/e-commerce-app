@@ -70,7 +70,7 @@ describe('secrets never reach the logs', () => {
     await valkey.connect();
     const app = await buildApp({
       env,
-      ports: createPorts(env, { email }),
+      ports: createPorts(env, { email }, { prismaRaw: getPrismaRaw() }),
       valkey,
       db: { prisma: getPrisma(), raw: getPrismaRaw() },
       disconnectDbOnClose: false,

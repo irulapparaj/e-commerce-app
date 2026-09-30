@@ -1,0 +1,195 @@
+/* Admin data table, pager, empty state, masked values and the audit diff. */
+/* ---- table ------------------------------------------------------------------------------------- */
+.admin-table-wrap {
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  overflow: auto;
+  max-height: calc(100dvh - var(--admin-topbar-height) - 8rem);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.admin-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--bg);
+  font-size: var(--admin-text-small);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.admin-filter-row td {
+  position: sticky;
+  top: 2rem;
+  z-index: 1;
+  background: var(--bg);
+  padding: 0.25rem 0.4rem;
+}
+
+.admin-sort-button {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.admin-sort-indicator {
+  color: var(--subtle);
+}
+
+.admin-align-end {
+  text-align: right;
+}
+
+.admin-row-interactive {
+  cursor: pointer;
+}
+
+.admin-row:hover td {
+  background: color-mix(in srgb, var(--text) 4%, transparent);
+}
+
+.admin-row:focus-visible td {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.admin-row-muted td {
+  color: var(--muted);
+}
+
+.admin-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.4rem 0.6rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.admin-pager p {
+  margin: 0;
+  font-size: var(--admin-text-small);
+}
+
+.admin-pager-buttons {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.admin-row-actions {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.admin-row-actions .admin-select {
+  width: auto;
+  padding: 0.2rem 0.4rem;
+  font-size: var(--admin-text-small);
+}
+
+.admin-empty {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.admin-empty-title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.admin-empty-action {
+  margin-top: 0.75rem;
+}
+
+.admin-not-permitted {
+  max-width: 32rem;
+  padding: 2rem 0;
+}
+
+.admin-not-permitted .admin-btn {
+  margin-top: 1rem;
+}
+
+.admin-masked {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--admin-text-small);
+}
+
+/* ---- audit diff -------------------------------------------------------------------------------- */
+.admin-diff {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--admin-text-small);
+}
+
+.admin-diff th,
+.admin-diff td {
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid var(--hairline);
+  vertical-align: top;
+  text-align: left;
+}
+
+.admin-diff pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.admin-diff-changed td {
+  background: color-mix(in srgb, var(--warning) 14%, transparent);
+  font-weight: 600;
+}
+
+.admin-diff-key {
+  white-space: nowrap;
+  width: 12rem;
+}
+
+.admin-meta-list {
+  margin: 0 0 0.75rem;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.25rem 1rem;
+  font-size: var(--admin-text-small);
+}
+
+.admin-meta-list dt {
+  color: var(--muted);
+}
+
+.admin-meta-list dd {
+  margin: 0;
+  word-break: break-all;
+}

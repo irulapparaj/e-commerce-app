@@ -29,5 +29,11 @@ export const postJson = async <T>(
     },
     body: JSON.stringify(body),
   });
-  return { status: response.status, envelope: (await response.json()) as ClientEnvelope<T> };
+  let envelope: ClientEnvelope<T>;
+  try {
+    envelope = (await response.json()) as ClientEnvelope<T>;
+  } catch {
+    envelope = { success: false, data: null, error: { code: 'SERVICE_UNAVAILABLE', message: 'Unexpected server response' } };
+  }
+  return { status: response.status, envelope };
 };

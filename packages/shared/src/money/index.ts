@@ -42,6 +42,14 @@ export const formatINR = (amount: Paise | number): string => {
   return `${sign}₹${groupIndian(String(rupees))}.${fraction}`;
 };
 
+/** `8050` → `"80.50"`: the plain decimal string used by spreadsheet exports (no symbol, no grouping). */
+export const paiseToRupeesString = (amount: Paise | number): string => {
+  assertInteger(amount, 'Amount');
+  const sign = amount < 0 ? '-' : '';
+  const abs = Math.abs(amount);
+  return `${sign}${Math.floor(abs / 100)}.${String(abs % 100).padStart(2, '0')}`;
+};
+
 export const add = (a: Paise, b: Paise): Paise => {
   assertInteger(a, 'Left operand');
   assertInteger(b, 'Right operand');

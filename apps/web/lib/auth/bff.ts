@@ -17,6 +17,10 @@ import {
 import { checkCsrf, checkSameOrigin } from './csrf';
 import { csrfFailure, jsonError, jsonOk } from './responses';
 
+// Cart session cookie name mirrors cart-session/route.ts; must stay in sync.
+const IS_PROD = process.env.NODE_ENV === 'production';
+const CART_COOKIE = IS_PROD ? '__Host-cart' : 'cart-session';
+
 interface SessionPayload {
   readonly accessToken: string;
   readonly refreshToken: string;
@@ -79,9 +83,15 @@ export const sendOtp = async (request: NextRequest): Promise<NextResponse> => {
 export const verifyOtp = async (request: NextRequest): Promise<NextResponse> => {
   const blocked = guardSameOrigin(request);
   if (blocked !== null) return blocked;
+  // Forward the guest cart session as x-previous-session so the API can merge it into the
+  // user-keyed cart on successful login (P11 cart merge).
+  const guestCartSession = cookie(request, CART_COOKIE);
   const result = await callApi<VerifyOtpPayload>('/auth/verify-otp', {
     body: await readJson(request),
     forwardFrom: request,
+    ...(guestCartSession !== undefined
+      ? { extraHeaders: { 'x-previous-session': guestCartSession } }
+      : {}),
   });
   if (!result.body.success) return passthrough(result.status, result.body);
   const payload = result.body.data;
@@ -161,10 +171,18 @@ export const logout = async (request: NextRequest): Promise<NextResponse> => {
   const token = cookie(request, COOKIE_NAMES.refresh);
   if (token !== undefined)
     await callApi('/auth/logout', { body: { refreshToken: token }, forwardFrom: request });
-  return applyCookies(jsonOk({ loggedOut: true }), [
+  const response = applyCookies(jsonOk({ loggedOut: true }), [
     ...clearedSessionCookies(),
     clearedMfaCookie(),
   ]);
+  response.cookies.set(CART_COOKIE, '', {
+    httpOnly: true,
+    secure: IS_PROD,
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 0,
+  });
+  return response;
 };
 
 export const logoutAll = async (request: NextRequest): Promise<NextResponse> => {
@@ -176,7 +194,15 @@ export const logoutAll = async (request: NextRequest): Promise<NextResponse> => 
       ? null
       : await callApi<{ revoked: number }>('/auth/logout-all', { bearer, forwardFrom: request });
   const revoked = result?.body.success ? result.body.data.revoked : 0;
-  return applyCookies(jsonOk({ revoked }), [...clearedSessionCookies(), clearedMfaCookie()]);
+  const response = applyCookies(jsonOk({ revoked }), [...clearedSessionCookies(), clearedMfaCookie()]);
+  response.cookies.set(CART_COOKIE, '', {
+    httpOnly: true,
+    secure: IS_PROD,
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 0,
+  });
+  return response;
 };
 
 export const stepUp = async (request: NextRequest): Promise<NextResponse> => {
@@ -191,6 +217,44 @@ export const stepUp = async (request: NextRequest): Promise<NextResponse> => {
   });
   if (!result.body.success) return passthrough(result.status, result.body);
   return applyCookies(jsonOk({ stepUpExp: result.body.data.stepUpExp }), [
+    accessCookie(result.body.data.accessToken),
+  ]);
+};
+
+/**
+ * A1: Customer re-authentication send — forwards to POST /auth/reauth/send with the stored
+ * access token. The API expects an empty body and a valid storefront bearer.
+ */
+export const sendReauth = async (request: NextRequest): Promise<NextResponse> => {
+  const blocked = guardCsrf(request);
+  if (blocked !== null) return blocked;
+  const bearer = cookie(request, COOKIE_NAMES.access);
+  if (bearer === undefined) return jsonError(401, 'UNAUTHENTICATED', 'No session');
+  const result = await callApi<{ nonce: string }>('/auth/reauth/send', {
+    body: {},
+    bearer,
+    forwardFrom: request,
+  });
+  return passthrough(result.status, result.body);
+};
+
+/**
+ * A1: Customer re-authentication verify — forwards nonce + OTP, and on success writes the
+ * re-auth access token (amr:['reauth']) back to the __Host-access cookie so subsequent
+ * DPDP export/delete requests carry the elevated claims automatically.
+ */
+export const verifyReauth = async (request: NextRequest): Promise<NextResponse> => {
+  const blocked = guardCsrf(request);
+  if (blocked !== null) return blocked;
+  const bearer = cookie(request, COOKIE_NAMES.access);
+  if (bearer === undefined) return jsonError(401, 'UNAUTHENTICATED', 'No session');
+  const result = await callApi<{ accessToken: string }>('/auth/reauth/verify', {
+    body: await readJson(request),
+    bearer,
+    forwardFrom: request,
+  });
+  if (!result.body.success) return passthrough(result.status, result.body);
+  return applyCookies(jsonOk({ reauthenticated: true }), [
     accessCookie(result.body.data.accessToken),
   ]);
 };

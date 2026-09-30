@@ -5,6 +5,7 @@ import {
   GetObjectCommand,
   HeadBucketCommand,
   HeadObjectCommand,
+  ListObjectsV2Command,
   PutObjectCommand,
   S3Client,
   type S3ClientConfig,
@@ -13,13 +14,18 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { type ApiEnv, AppError } from '@pe/shared';
 
 import type {
+  ListObjectsInput,
   ObjectHead,
   ObjectRef,
+  ObjectSummary,
   ObjectStoragePort,
   PresignedUpload,
   PresignPutInput,
   PutObjectInput,
 } from '../object-storage';
+
+const LIST_PAGE_MAX = 1000;
+const LIST_DEFAULT_LIMIT = 10_000;
 
 const isNotFound = (error: unknown): boolean => {
   const status = (error as { $metadata?: { httpStatusCode?: number } }).$metadata?.httpStatusCode;
@@ -78,6 +84,32 @@ export class S3ObjectStorageAdapter implements ObjectStoragePort {
   async presignGet(input: ObjectRef & { readonly expiresSec: number }): Promise<{ url: string }> {
     const command = new GetObjectCommand({ Bucket: input.bucket, Key: input.key });
     return { url: await getSignedUrl(this.client, command, { expiresIn: input.expiresSec }) };
+  }
+
+  async list(input: ListObjectsInput): Promise<readonly ObjectSummary[]> {
+    const limit = input.limit ?? LIST_DEFAULT_LIMIT;
+    const collected: ObjectSummary[] = [];
+    let token: string | undefined;
+    do {
+      const page = await this.client.send(
+        new ListObjectsV2Command({
+          Bucket: input.bucket,
+          Prefix: input.prefix,
+          MaxKeys: Math.min(LIST_PAGE_MAX, limit - collected.length),
+          ...(token === undefined ? {} : { ContinuationToken: token }),
+        }),
+      );
+      for (const object of page.Contents ?? []) {
+        if (object.Key !== undefined && object.LastModified !== undefined)
+          collected.push({
+            key: object.Key,
+            size: object.Size ?? 0,
+            lastModified: object.LastModified,
+          });
+      }
+      token = page.IsTruncated === true ? page.NextContinuationToken : undefined;
+    } while (token !== undefined && collected.length < limit);
+    return collected;
   }
 
   async head(ref: ObjectRef): Promise<ObjectHead> {

@@ -25,7 +25,8 @@ export const connectValkey = async (client: Redis): Promise<boolean> => {
   try {
     await client.connect();
     return true;
-  } catch {
+  } catch (error) {
+    console.error('Valkey connection failed', error);
     return false;
   }
 };

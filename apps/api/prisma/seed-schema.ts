@@ -41,6 +41,7 @@ export const productSeedSchema = z.strictObject({
     )
     .optional(),
   specifications: z.record(z.string(), z.string()).default({}),
+  description: z.string().optional(),
   variants: z.array(variantSeedSchema).min(1).max(2),
 });
 

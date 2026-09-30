@@ -1,0 +1,23 @@
+# SQL injection corpus — OWASP-derived payloads
+# Feed to string fields; expect 400/404, never 500 or DB error strings
+' OR '1'='1
+' OR 1=1--
+'; DROP TABLE users;--
+' UNION SELECT null,null,null--
+1; SELECT * FROM users--
+' OR 'x'='x
+admin'--
+' OR 1=1 LIMIT 1--
+1 UNION ALL SELECT null,null,null,null--
+' AND 1=CONVERT(int,(SELECT TOP 1 name FROM sysobjects WHERE xtype='U'))--
+'; EXEC xp_cmdshell('dir')--
+' AND SLEEP(5)--
+1 AND (SELECT 1 FROM (SELECT COUNT(*),CONCAT((SELECT version()),FLOOR(RAND(0)*2))x FROM information_schema.tables GROUP BY x)a)--
+' OR '1'='1' /*
+\' OR \'1\'=\'1
+%27 OR %271%27=%271
+1; WAITFOR DELAY '0:0:5'--
+'; BEGIN DECLARE @v VARCHAR(8000) SET @v = 0x73656c--
+test@example.com' OR '1'='1
+test-slug' OR 1=1--
+test-slug'; DROP TABLE products--

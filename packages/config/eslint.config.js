@@ -1,6 +1,7 @@
 import js from '@eslint/js';
 import prettier from 'eslint-config-prettier';
 import importX from 'eslint-plugin-import-x';
+import reactPlugin from 'eslint-plugin-react';
 import { builtinRules } from 'eslint/use-at-your-own-risk';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
@@ -119,8 +120,12 @@ export function createEslintConfig({ tsconfigRootDir }) {
     },
     {
       files: ['**/*.tsx'],
+      plugins: { react: reactPlugin },
+      settings: { react: { version: 'detect' } },
       rules: {
         'max-lines-per-function': ['warn', { max: 120, skipBlankLines: true, skipComments: true }],
+        'react/no-danger': 'error',
+        'react/no-array-index-key': 'warn',
       },
     },
     prettier,

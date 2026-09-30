@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 
 import { AdminLoginForm } from '@/components/auth/AdminLoginForm';
@@ -12,7 +13,10 @@ export default function AdminLoginPage() {
         Email code first, then your authenticator app.
       </p>
       <div style={{ marginTop: 'var(--space-4)' }}>
-        <AdminLoginForm />
+        {/* Suspense boundary required because AdminLoginForm reads useSearchParams() */}
+        <Suspense>
+          <AdminLoginForm />
+        </Suspense>
       </div>
     </main>
   );

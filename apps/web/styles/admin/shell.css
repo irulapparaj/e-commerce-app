@@ -1,0 +1,327 @@
+/* Admin console: dense, utilitarian, high contrast. Colours come only from tokens.css. */
+:root {
+  --admin-text: 0.875rem;
+  --admin-text-small: 0.75rem;
+  --admin-sidebar-width: 220px;
+  --admin-sidebar-collapsed: 56px;
+  --admin-topbar-height: 48px;
+  --admin-gap: 0.75rem;
+  --admin-pad: 0.5rem;
+}
+
+.admin-shell {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  min-height: 100dvh;
+  font-size: var(--admin-text);
+  line-height: 1.45;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.admin-shell h1,
+.admin-shell h2,
+.admin-shell h3 {
+  font-family: var(--font-body);
+  letter-spacing: 0;
+}
+
+.admin-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.admin-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.admin-muted {
+  color: var(--muted);
+}
+
+.admin-error {
+  color: var(--critical);
+  font-size: var(--admin-text-small);
+  margin: 0.25rem 0 0;
+}
+
+.admin-help {
+  color: var(--muted);
+  font-size: var(--admin-text-small);
+  margin: 0.25rem 0 0;
+}
+
+/* ---- sidebar ---------------------------------------------------------------------------------- */
+.admin-sidebar {
+  width: var(--admin-sidebar-width);
+  border-right: 1px solid var(--hairline);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  transition: width var(--duration-normal) var(--ease-out);
+}
+
+.admin-sidebar-collapsed {
+  width: var(--admin-sidebar-collapsed);
+}
+
+.admin-sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--admin-pad);
+  height: var(--admin-topbar-height);
+  padding: 0 var(--admin-pad) 0 0.75rem;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.admin-wordmark {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--text);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.admin-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: var(--admin-pad) 0;
+}
+
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.4rem 0.75rem;
+  color: var(--text);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.admin-nav-item:hover {
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+}
+
+.admin-nav-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.admin-nav-item-active {
+  border-left-color: var(--accent);
+  font-weight: 600;
+}
+
+.admin-nav-item-disabled {
+  color: var(--subtle);
+  cursor: not-allowed;
+}
+
+.admin-nav-abbr {
+  display: none;
+  width: 1.75rem;
+  text-align: center;
+  font-size: var(--admin-text-small);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.admin-nav-soon {
+  margin-left: auto;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--subtle);
+}
+
+.admin-sidebar-collapsed .admin-nav-label,
+.admin-sidebar-collapsed .admin-nav-soon {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.admin-sidebar-collapsed .admin-nav-abbr {
+  display: inline-block;
+}
+
+.admin-sidebar-collapsed .admin-nav-item,
+.admin-sidebar-collapsed .admin-sidebar-top {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+/* ---- top bar and main ------------------------------------------------------------------------- */
+.admin-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--admin-topbar-height);
+  padding: 0 1rem;
+  border-bottom: 1px solid var(--hairline);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.admin-env {
+  font-size: var(--admin-text-small);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-control);
+  color: var(--muted);
+}
+
+.admin-env-production {
+  color: var(--critical);
+  border-color: var(--critical);
+}
+
+.admin-badge {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+  color: var(--text);
+}
+
+.admin-user-menu {
+  position: relative;
+}
+
+.admin-user-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  padding: 0.3rem 0.5rem;
+  font: inherit;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.admin-user-trigger:hover,
+.admin-user-trigger[aria-expanded='true'] {
+  border-color: var(--hairline);
+  background: var(--bg);
+}
+
+.admin-user-trigger:focus-visible,
+.admin-btn:focus-visible,
+.admin-input:focus-visible,
+.admin-select:focus-visible,
+.admin-tab:focus-visible,
+.admin-row:focus-visible,
+.admin-sort-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.admin-user-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  min-width: 18rem;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-control);
+  box-shadow: var(--shadow-modal);
+  padding: 0.75rem;
+  z-index: 10;
+}
+
+.admin-user-details {
+  margin: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.admin-user-details > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.admin-user-details dt {
+  color: var(--muted);
+}
+
+.admin-user-details dd {
+  margin: 0;
+  text-align: right;
+}
+
+.admin-user-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.admin-user-actions .btn {
+  padding: 0.4rem 0.7rem;
+  font-size: var(--admin-text-small);
+}
+
+.admin-content {
+  padding: 1rem 1.25rem 2rem;
+  max-width: 1400px;
+  width: 100%;
+}
+
+@media (max-width: 720px) {
+  .admin-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .admin-nav-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .admin-content {
+    padding: 0.75rem 1rem 2rem;
+  }
+}

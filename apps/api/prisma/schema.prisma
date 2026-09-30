@@ -122,6 +122,12 @@ enum StatusSource {
   WEBHOOK
 }
 
+enum NewsletterStatus {
+  PENDING
+  SUBSCRIBED
+  UNSUBSCRIBED
+}
+
 // ---------------------------------------------------------------------------------------------
 // Identity
 // ---------------------------------------------------------------------------------------------
@@ -341,7 +347,16 @@ model ImportJob {
   okRows         Int          @default(0) @map("ok_rows")
   errorRows      Int          @default(0) @map("error_rows")
   errorReportKey String?      @map("error_report_key")
+  /// Declared upload type; the parser re-checks the magic bytes against it
+  contentType    String       @default("text/csv") @map("content_type")
+  /// SHA-256 of the validated file; apply refuses when the object no longer matches
+  fileHash       String?      @map("file_hash")
+  /// Dry-run report (creates, updates, stock deltas, first errors)
+  report         Json?
+  /// Why the job FAILED outside row validation (parse or apply failure)
+  error          String?
   createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  validatedAt    DateTime?    @map("validated_at") @db.Timestamptz(3)
   appliedAt      DateTime?    @map("applied_at") @db.Timestamptz(3)
 
   actor User @relation(fields: [actorId], references: [id], onDelete: Restrict)
@@ -374,9 +389,18 @@ model Order {
   cgstAmount        Int           @default(0) @map("cgst_amount")
   sgstAmount        Int           @default(0) @map("sgst_amount")
   igstAmount        Int           @default(0) @map("igst_amount")
+  /// GST on shipping: CGST (intra-state) or 0 (inter-state); SAC 9968 courier at 18%
+  shippingCgstAmount  Int         @default(0) @map("shipping_cgst_amount")
+  /// GST on shipping: SGST (intra-state) or 0 (inter-state); SAC 9968 courier at 18%
+  shippingSgstAmount  Int         @default(0) @map("shipping_sgst_amount")
+  /// GST on shipping: IGST (inter-state) or 0 (intra-state); SAC 9968 courier at 18%
+  shippingIgstAmount  Int         @default(0) @map("shipping_igst_amount")
   total             Int
   status            OrderStatus   @default(PENDING)
   paymentStatus     PaymentStatus @default(PENDING) @map("payment_status")
+  /// Paise already sent to Razorpay for refund (initiated, not necessarily processed);
+  /// the sole source of truth for the refund cap — updated only under FOR UPDATE
+  refundedAmount    Int           @default(0) @map("refunded_amount")
   razorpayOrderId   String?       @map("razorpay_order_id")
   razorpayPaymentId String?       @unique @map("razorpay_payment_id")
   couponCode        String?       @map("coupon_code")
@@ -385,6 +409,7 @@ model Order {
   courierName       String?       @map("courier_name")
   shiprocketOrderId String?       @map("shiprocket_order_id")
   notes             String?
+  deliveredAt       DateTime?     @map("delivered_at") @db.Timestamptz(3)
   createdAt         DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt         DateTime      @updatedAt @map("updated_at") @db.Timestamptz(3)
 
@@ -486,7 +511,7 @@ model WebhookEvent {
   provider       WebhookProvider
   externalId     String          @map("external_id")
   signatureValid Boolean         @map("signature_valid")
-  /// Raw provider payload; ADMIN-only; redacted at log/export
+  /// Provider payload, PII-scrubbed at write (webhook.sanitize.ts); swept after 90 d (retention job)
   payload        Json
   processedAt    DateTime?       @map("processed_at") @db.Timestamptz(3)
   error          String?
@@ -621,4 +646,23 @@ model EmailSuppression {
   createdAt DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
 
   @@map("email_suppression")
+}
+
+model NewsletterSubscriber {
+  id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  /// SHA-256 of lowercase email — unique, used for idempotent lookup
+  emailHash       String            @unique @map("email_hash")
+  /// Versioned ciphertext envelope (v1:<iv>:<tag>:<ciphertext>); set to NULL on DPDP erase (H-32)
+  emailEncrypted  String?           @map("email_encrypted")
+  /// HMAC-SHA256 signed token for unsubscribe links (base64url, 43 chars); unique (H-33)
+  unsubscribeToken String?          @unique @map("unsubscribe_token") @db.Char(43)
+  status          NewsletterStatus  @default(PENDING)
+  source          String            @default("storefront") @db.VarChar(40)
+  consentAt       DateTime          @map("consent_at") @db.Timestamptz(3)
+  unsubscribedAt  DateTime?         @map("unsubscribed_at") @db.Timestamptz(3)
+  createdAt       DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt       DateTime          @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@index([status])
+  @@map("newsletter_subscriber")
 }

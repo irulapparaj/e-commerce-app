@@ -13,6 +13,11 @@ describe('ENCRYPTED_FIELDS', () => {
             "line2",
           ],
         },
+        "NewsletterSubscriber": {
+          "fields": [
+            "emailEncrypted",
+          ],
+        },
         "Order": {
           "fields": [
             "phone",
@@ -38,6 +43,6 @@ describe('ENCRYPTED_FIELDS', () => {
         },
       }
     `);
-    expect(ENCRYPTED_MODELS).toEqual(['User', 'Address', 'Order']);
+    expect(ENCRYPTED_MODELS).toEqual(['User', 'Address', 'Order', 'NewsletterSubscriber']);
   });
 });

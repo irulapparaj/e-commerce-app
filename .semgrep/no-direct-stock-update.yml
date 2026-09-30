@@ -1,0 +1,30 @@
+rules:
+  - id: no-direct-stock-update
+    message: >
+      Direct write to productVariant.stock is forbidden. Stock must only change via applyMovement()
+      which creates an audited StockMovement ledger row (DESIGN §11.2, §11.3).
+      Fix: use applyMovement() from src/modules/inventory/apply-movement.ts.
+    severity: ERROR
+    languages: [typescript]
+    pattern-either:
+      - pattern: |
+          $PRISMA.productVariant.update({
+            where: $WHERE,
+            data: { stock: $VALUE, ... }
+          })
+      - pattern: |
+          $PRISMA.productVariant.update({
+            where: $WHERE,
+            data: { ..., stock: $VALUE }
+          })
+      - pattern: |
+          $PRISMA.productVariant.updateMany({
+            where: $WHERE,
+            data: { stock: $VALUE, ... }
+          })
+    paths:
+      exclude:
+        - '**/*.test.ts'
+        - '**/*.spec.ts'
+        - '**/migrations/**'
+        - '**/seed*.ts'

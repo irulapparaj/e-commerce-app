@@ -1,0 +1,66 @@
+# Gitleaks configuration for Puja Essentials (P17)
+# Extends gitleaks default rules with project-specific patterns and allow-list.
+# Run: gitleaks detect --config .gitleaks.toml
+
+title = "Puja Essentials gitleaks config"
+
+[extend]
+# Use gitleaks built-in ruleset as the base.
+useDefault = true
+
+# ===========================================================================
+# Project-specific secret patterns
+# ===========================================================================
+
+[[rules]]
+id = "pe-razorpay-live-key"
+description = "Razorpay live API key (must never appear in source)"
+regex = '''rzp_live_[A-Za-z0-9]{14,}'''
+severity = "critical"
+tags = ["razorpay", "payment"]
+
+[[rules]]
+id = "pe-encryption-key"
+description = "Encryption key in base64 (32+ bytes)"
+regex = '''(ENCRYPTION_KEY_B64|BLIND_INDEX_KEY_B64)\s*=\s*["']?[A-Za-z0-9+/]{44,}={0,2}["']?'''
+severity = "critical"
+tags = ["encryption", "secrets"]
+
+[[rules]]
+id = "pe-jwt-private-key"
+description = "RSA private key material"
+regex = '''-----BEGIN (RSA |EC )?PRIVATE KEY-----'''
+severity = "critical"
+tags = ["jwt", "rsa"]
+
+[[rules]]
+id = "pe-hmac-secret"
+description = "HMAC secret longer than 32 chars"
+regex = '''(HMAC_SECRET|REVALIDATE_SECRET|WEBHOOK_SECRET)\s*=\s*["']?[A-Za-z0-9+/!@#$%^&*]{32,}["']?'''
+severity = "high"
+tags = ["hmac", "webhook"]
+
+# ===========================================================================
+# Allow-list — known safe test values that would otherwise trigger rules
+# ===========================================================================
+
+[allowlist]
+description = "Test fixtures, CI dummy values, and documentation examples"
+regexes = [
+  # Test fixture values in env.test (committed for CI)
+  '''minioadmin''',
+  # Razorpay test key prefix — rzp_test_ is always a test key, never live
+  '''rzp_test_''',
+  # Base64 strings in test fixture that spell out "test-..." in ASCII
+  '''dGVzdC1lbmNyeXB0aW9uLWtleS0zMi1ieXRlcy0hISE=''',
+  '''dGVzdC1ibGluZC1pbmRleC1rZXktMzItYnl0ZXMhISE=''',
+  # Documentation / DESIGN.md examples
+  '''changeme''',
+]
+
+paths = [
+  ".env.example",
+  "apps/api/test/fixtures/env.test",
+  "docs/DESIGN.md",
+  ".gitleaks.toml",
+]

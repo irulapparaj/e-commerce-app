@@ -24,6 +24,7 @@ const generated = {
   JWT_KEYS_JSON: JSON.stringify([{ kid, privatePem, publicPem }]),
   JWT_PUBLIC_KEYS_JSON: JSON.stringify([{ kid, publicPem }]),
   REVALIDATE_SECRET: randomBytes(24).toString('base64url'),
+  HMAC_SECRET: randomBytes(32).toString('hex'),
 };
 
 const lines = readFileSync(resolve(root, '.env.example'), 'utf8')

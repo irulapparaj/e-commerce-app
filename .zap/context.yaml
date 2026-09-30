@@ -1,0 +1,36 @@
+# ZAP authenticated context for the storefront (P17 task 11)
+# Used by zap-baseline.py to configure an authenticated scan.
+# The OTP is obtained from the test-mode endpoint that returns a predictable OTP.
+#
+# Scope: storefront (http://web:3000) + BFF API routes (/api/)
+# Out of scope: the private Fastify API (http://api:4000) — ZAP noise there is irrelevant.
+
+env:
+  contexts:
+    - name: "Storefront Authenticated"
+      urls:
+        - "http://web:3000"
+      includePaths:
+        - "http://web:3000.*"
+      excludePaths:
+        - "http://web:3000/_next.*"
+        - "http://web:3000/api/auth.*"  # Auth endpoints handled separately
+      authentication:
+        method: "script"
+        parameters:
+          scriptName: "otp-login.js"
+          targetUrl: "http://web:3000/api/auth/send-otp"
+          verifyUrl: "http://web:3000/api/auth/verify-otp"
+          testEmail: "zap-test@example.test"
+        verification:
+          method: "response"
+          loggedInIndicator: "accessToken"
+          loggedOutIndicator: "UNAUTHENTICATED"
+      sessionManagement:
+        method: "cookie"
+        parameters:
+          loginRequestData: ""
+      users:
+        - name: "test-customer"
+          credentials:
+            username: "zap-test@example.test"

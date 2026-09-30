@@ -14,6 +14,8 @@ export const ACCESS_TTL_SECONDS: Readonly<Record<Audience, number>> = {
   mfa: 300,
 };
 export const STEP_UP_TTL_SECONDS = 300;
+/** Audience of the short-lived PII reveal token (P08 task 4); never accepted by `authenticate`. */
+export const REVEAL_AUDIENCE = 'reveal';
 const ALGORITHM = 'RS256';
 
 export interface AccessClaims {
@@ -41,6 +43,24 @@ const payloadSchema = z.object({
   iat: z.number().int(),
 });
 
+export interface RevealClaims {
+  /** The staff member who justified the reveal; a token never works for anyone else. */
+  readonly actorId: string;
+  readonly customerId: string;
+}
+
+export interface VerifiedReveal extends RevealClaims {
+  readonly exp: number;
+  readonly jti: string;
+}
+
+const revealPayloadSchema = z.object({
+  sub: z.uuid(),
+  customerId: z.uuid(),
+  jti: z.string().min(1),
+  exp: z.number().int(),
+});
+
 export interface TokenServiceOptions {
   readonly keys: readonly JwtKeyPair[];
   readonly activeKid: string;
@@ -54,6 +74,9 @@ export interface TokenService {
     token: string,
     options: { readonly audience: Audience | readonly Audience[] },
   ): Promise<VerifiedAccess>;
+  signReveal(claims: RevealClaims, ttlSeconds: number): Promise<string>;
+  /** Throws REVEAL_EXPIRED for anything but a live, well-formed reveal token. */
+  verifyReveal(token: string): Promise<VerifiedReveal>;
   readonly publicKeys: readonly JwtPublicKey[];
   readonly activeKid: string;
 }
@@ -150,11 +173,59 @@ const verifyAccess = async (
   }
 };
 
+const signReveal = (
+  material: KeyMaterial,
+  claims: RevealClaims,
+  ttlSeconds: number,
+): Promise<string> => {
+  const issuedAt = Math.floor(material.now().getTime() / 1000);
+  return new SignJWT({ customerId: claims.customerId })
+    .setProtectedHeader({ alg: ALGORITHM, kid: material.activeKid })
+    .setSubject(claims.actorId)
+    .setAudience(REVEAL_AUDIENCE)
+    .setIssuer(material.issuer)
+    .setIssuedAt(issuedAt)
+    .setExpirationTime(issuedAt + ttlSeconds)
+    .setJti(randomUUID())
+    .sign(material.privateKey);
+};
+
+const verifyReveal = async (material: KeyMaterial, token: string): Promise<VerifiedReveal> => {
+  try {
+    const { payload } = await jwtVerify(
+      token,
+      (header) => {
+        const key = header.kid === undefined ? undefined : material.publicKeys.get(header.kid);
+        if (key === undefined) throw new Error('unknown kid');
+        return key;
+      },
+      {
+        algorithms: [ALGORITHM],
+        audience: REVEAL_AUDIENCE,
+        issuer: material.issuer,
+        currentDate: material.now(),
+      },
+    );
+    const parsed = revealPayloadSchema.safeParse(payload);
+    if (!parsed.success) throw new Error('malformed claims');
+    return {
+      actorId: parsed.data.sub,
+      customerId: parsed.data.customerId,
+      exp: parsed.data.exp,
+      jti: parsed.data.jti,
+    };
+  } catch (error) {
+    throw new AppError('REVEAL_EXPIRED', undefined, { cause: error });
+  }
+};
+
 export const createTokenService = (options: TokenServiceOptions): TokenService => {
   const material = loadKeys(options);
   return {
     signAccess: (claims, ttlSeconds) => signAccess(material, claims, ttlSeconds),
     verifyAccess: (token, { audience }) => verifyAccess(material, token, audience),
+    signReveal: (claims, ttlSeconds) => signReveal(material, claims, ttlSeconds),
+    verifyReveal: (token) => verifyReveal(material, token),
     publicKeys: options.keys.map((key) => ({ kid: key.kid, publicPem: key.publicPem })),
     activeKid: options.activeKid,
   };

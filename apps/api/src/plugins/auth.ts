@@ -36,12 +36,19 @@ export const authPlugin = sharedPlugin<AuthPluginOptions>(async (app, options) =
     now,
   });
   const hooks = createAuthHooks();
+  const sendLimitOverrides: { perEmail?: number; perIp?: number } = {};
+  if (app.env.OTP_EMAIL_RATE_LIMIT !== undefined)
+    sendLimitOverrides.perEmail = app.env.OTP_EMAIL_RATE_LIMIT;
+  if (app.env.OTP_IP_RATE_LIMIT !== undefined)
+    sendLimitOverrides.perIp = app.env.OTP_IP_RATE_LIMIT;
+
   const otp = createOtpService({
     valkey: app.valkey,
     keys: app.ports.keys,
     email: app.ports.email,
     rateLimiter: app.rateLimiter,
     now: nowMs,
+    sendLimitOverrides,
   });
   const refresh = createRefreshService({ prisma: app.prisma, tokens, hooks, events, now });
   const mfa = createMfaService({ prisma: app.prisma, keys: app.ports.keys, events, now });

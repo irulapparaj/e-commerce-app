@@ -6,10 +6,19 @@ export interface EnvelopeError {
   readonly details?: unknown;
 }
 
+/** Paise. The unfiltered price spread of the listing's scope; null when the scope has no products. */
+export interface PriceRange {
+  readonly min: number;
+  readonly max: number;
+  /** Product counts over equal-width price buckets between min and max (the filter histogram). */
+  readonly buckets?: readonly number[];
+}
+
 export interface EnvelopeMeta {
   readonly page: number;
   readonly limit: number;
   readonly total: number;
+  readonly priceRange?: PriceRange | null;
 }
 
 export interface SuccessEnvelope<T> {

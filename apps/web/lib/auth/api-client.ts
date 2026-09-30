@@ -1,4 +1,4 @@
-import type { Envelope } from '@pe/shared';
+import { fail, type Envelope } from '@pe/shared';
 
 import { getWebEnv } from '@/lib/env';
 
@@ -7,6 +7,7 @@ export interface ApiCallOptions {
   readonly body?: unknown;
   readonly bearer?: string;
   readonly forwardFrom?: Request;
+  readonly extraHeaders?: Readonly<Record<string, string>>;
 }
 
 export interface ApiCallResult<T> {
@@ -28,17 +29,31 @@ export const callApi = async <T>(
   options: ApiCallOptions = {},
 ): Promise<ApiCallResult<T>> => {
   const env = getWebEnv();
-  const response = await fetch(`${env.API_INTERNAL_URL}/api/v1${path}`, {
-    method: options.method ?? 'POST',
-    headers: {
-      accept: 'application/json',
-      ...(options.body === undefined ? {} : { 'content-type': 'application/json' }),
-      ...forwardedHeaders(options.forwardFrom),
-      ...(options.bearer === undefined ? {} : { authorization: `Bearer ${options.bearer}` }),
-    },
-    body: options.body === undefined ? null : JSON.stringify(options.body),
-    cache: 'no-store',
-  });
-  const body = (await response.json()) as Envelope<T>;
+  let response: Response;
+  try {
+    response = await fetch(`${env.API_INTERNAL_URL}/api/v1${path}`, {
+      method: options.method ?? 'POST',
+      headers: {
+        accept: 'application/json',
+        ...(options.body === undefined ? {} : { 'content-type': 'application/json' }),
+        ...forwardedHeaders(options.forwardFrom),
+        ...(options.extraHeaders ?? {}),
+        ...(options.bearer === undefined ? {} : { authorization: `Bearer ${options.bearer}` }),
+      },
+      body: options.body === undefined ? null : JSON.stringify(options.body),
+      cache: 'no-store',
+    });
+  } catch {
+    return {
+      status: 503,
+      body: fail({ code: 'SERVICE_UNAVAILABLE', message: 'API is unreachable' }) as Envelope<T>,
+    };
+  }
+  let body: Envelope<T>;
+  try {
+    body = (await response.json()) as Envelope<T>;
+  } catch {
+    body = fail({ code: 'SERVICE_UNAVAILABLE', message: 'Empty response from API' });
+  }
   return { status: response.status, body };
 };

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { AppError } from '../errors';
 
-import { add, formatINR, mulQty, paise, rupeesToPaise, sub } from './index';
+import { add, formatINR, mulQty, paise, paiseToRupeesString, rupeesToPaise, sub } from './index';
 
 describe('rupeesToPaise', () => {
   it.each([
@@ -40,6 +40,23 @@ describe('formatINR', () => {
 
   it('rejects non-integer amounts', () => {
     expect(() => formatINR(10.5)).toThrow(AppError);
+  });
+});
+
+describe('paiseToRupeesString', () => {
+  it.each([
+    [0, '0.00'],
+    [5, '0.05'],
+    [8050, '80.50'],
+    [1234567890, '12345678.90'],
+    [-12345, '-123.45'],
+  ])('formats %d as %s without symbol or grouping', (input, expected) => {
+    expect(paiseToRupeesString(paise(input))).toBe(expected);
+  });
+
+  it('round-trips through rupeesToPaise and rejects non-integers', () => {
+    expect(rupeesToPaise(paiseToRupeesString(paise(8050)))).toBe(8050);
+    expect(() => paiseToRupeesString(1.5)).toThrow(AppError);
   });
 });
 

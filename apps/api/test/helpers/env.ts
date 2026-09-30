@@ -31,14 +31,17 @@ const containerOverrides = (): Record<string, string> => {
   return Object.fromEntries(Object.entries(map).filter(([, value]) => value !== ''));
 };
 
-export const buildTestEnv = (overrides: Record<string, string> = {}): ApiEnv => {
-  const source = {
+export const buildTestEnv = (overrides: Record<string, string | undefined> = {}): ApiEnv => {
+  const merged: Record<string, string> = {
     ...readEnvFixture(),
     ...containerOverrides(),
     JWT_KEYS_JSON: JSON.stringify(testKeyPairs()),
-    ...overrides,
   };
-  const result = parseEnv(apiEnvSchema, source);
+  for (const [key, value] of Object.entries(overrides)) {
+    if (value === undefined) delete merged[key];
+    else merged[key] = value;
+  }
+  const result = parseEnv(apiEnvSchema, merged);
   if (!result.ok) throw new Error(formatEnvIssues(result.issues));
   return result.env;
 };

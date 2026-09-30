@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "sideEffects": false,
   "exports": {
     ".": "./src/index.ts",
     "./env": "./src/env.ts",
@@ -13,7 +14,12 @@
     "./constants": "./src/constants/index.ts",
     "./brand": "./src/brand.ts",
     "./redirect": "./src/redirect.ts",
-    "./envelope": "./src/envelope.ts"
+    "./envelope": "./src/envelope.ts",
+    "./richtext": "./src/richtext.ts",
+    "./schemas/settings": "./src/schemas/settings.ts",
+    "./schemas/catalogue": "./src/schemas/catalogue.ts",
+    "./schemas/import-row": "./src/schemas/import-row.ts",
+    "./masking": "./src/masking.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",

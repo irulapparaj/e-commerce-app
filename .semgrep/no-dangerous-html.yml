@@ -1,0 +1,18 @@
+rules:
+  - id: no-dangerous-set-inner-html
+    message: >
+      dangerouslySetInnerHTML can introduce XSS if the HTML is not sanitized.
+      Only use it with output from sanitize-html (e.g. in RichTextRenderer).
+      If you need to render rich text, use the shared renderRichText() utility.
+    severity: ERROR
+    languages: [typescript, tsx]
+    pattern: dangerouslySetInnerHTML={{ __html: $VALUE }}
+    paths:
+      include:
+        - 'apps/web/**'
+      exclude:
+        - 'apps/web/components/content/RichTextRenderer.tsx'
+        - 'apps/web/components/richtext/**'
+        - '**/*.test.ts'
+        - '**/*.test.tsx'
+        - '**/*.spec.ts'

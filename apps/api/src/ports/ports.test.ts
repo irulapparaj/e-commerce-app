@@ -6,6 +6,7 @@ import { EnvKeyProvider } from './adapters/env-key-provider';
 import { FakeEmailAdapter } from './adapters/fake-email';
 import { FakeShippingAdapter } from './adapters/fake-shipping';
 import { NoopSearchAdapter } from './adapters/noop-search';
+import { PostgresSearchAdapter } from './adapters/postgres-search';
 import { S3ObjectStorageAdapter } from './adapters/s3-object-storage';
 import { SmtpEmailAdapter } from './adapters/smtp-email';
 
@@ -13,7 +14,7 @@ import { createPorts } from './index';
 
 describe('createPorts', () => {
   it('selects local adapters from env', () => {
-    const ports = createPorts(buildTestEnv({ EMAIL_ADAPTER: 'smtp' }));
+    const ports = createPorts(buildTestEnv({ EMAIL_ADAPTER: 'smtp', SEARCH_ADAPTER: 'noop' }));
 
     expect(ports.email).toBeInstanceOf(SmtpEmailAdapter);
     expect(ports.storage).toBeInstanceOf(S3ObjectStorageAdapter);
@@ -37,8 +38,15 @@ describe('createPorts', () => {
       SHIPROCKET_PASSWORD: 'b',
       SHIPROCKET_WEBHOOK_SECRET: 'c',
     });
-    expect(() => createPorts(shiprocket)).toThrow('shiprocket');
+    expect(() => createPorts(shiprocket)).toThrow('Shiprocket');
     expect(() => createPorts(buildTestEnv({ SEARCH_ADAPTER: 'postgres' }))).toThrow('postgres');
+  });
+
+  it('builds the Postgres search adapter when given a database client', () => {
+    const prismaRaw = {} as never;
+    const ports = createPorts(buildTestEnv({ SEARCH_ADAPTER: 'postgres' }), {}, { prismaRaw });
+
+    expect(ports.search).toBeInstanceOf(PostgresSearchAdapter);
   });
 
   it('builds S3 client config with env-driven path style', () => {

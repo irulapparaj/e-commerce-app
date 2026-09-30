@@ -1,0 +1,17 @@
+rules:
+  - id: no-cookie-read-in-api
+    message: >
+      The API is Bearer-only (DESIGN §11.3). Reading request.cookies in the API layer
+      would bypass the BFF cookie model and create a divergent auth path.
+      Authentication is via the Authorization: Bearer header only.
+    severity: ERROR
+    languages: [typescript]
+    patterns:
+      - pattern: $REQUEST.cookies
+      - pattern: request.cookies
+    paths:
+      include:
+        - 'apps/api/src/**'
+      exclude:
+        - '**/*.test.ts'
+        - '**/*.spec.ts'

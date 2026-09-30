@@ -1,0 +1,11 @@
+{
+  "awb_assign_status": 1,
+  "response": {
+    "data": {
+      "awb_code": "1234567890123",
+      "courier_name": "Delhivery",
+      "courier_company_id": 1,
+      "shipment_id": 987654321
+    }
+  }
+}

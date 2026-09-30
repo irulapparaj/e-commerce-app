@@ -1,0 +1,9 @@
+# Header injection corpus
+# Feed to to/subject/name fields; expect 400, never header injection in email
+test@example.com\r\nBcc: spam@evil.com
+test@example.com\nCC: other@evil.com
+test\r\nX-Injected: yes\r\nContent-Type: text/html
+subject\r\nBcc: evil@evil.com
+test\r\n\r\n<script>alert(1)</script>
+foo%0d%0aSet-Cookie: session=hijacked
+foo%0d%0aLocation: https://evil.com

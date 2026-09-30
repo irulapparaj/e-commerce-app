@@ -127,12 +127,13 @@ describe('seed', () => {
     expect(first.products).toBe(24);
     expect(first.variants).toBe(27);
     expect(first.images).toBe(24);
-    expect(first.settings).toBe(7);
+    expect(first.settings).toBe(8);
     expect(second).toEqual(first);
     expect(admin).toMatchObject({ role: 'ADMIN', mfaEnabled: false });
     expect(settings.map((s) => s.key).sort()).toEqual([
       'announcement_bar',
       'brand',
+      'courier_preferences',
       'free_shipping_threshold',
       'gst_profile',
       'pickup_location',

@@ -21,7 +21,7 @@ const validApi: Record<string, string> = {
   S3_SECRET_KEY: 'minio123',
   S3_FORCE_PATH_STYLE: 'true',
   SMTP_URL: 'smtp://localhost:1025',
-  EMAIL_FROM: 'Puja Essentials <no-reply@example.test>',
+  EMAIL_FROM: 'Invita Company <no-reply@example.test>',
   ENCRYPTION_KEY_B64: key32,
   BLIND_INDEX_KEY_B64: key32,
   JWT_ACTIVE_KID: 'k1',
@@ -32,6 +32,7 @@ const validApi: Record<string, string> = {
   RAZORPAY_KEY_ID: 'rzp_test_x',
   RAZORPAY_KEY_SECRET: 'secret',
   RAZORPAY_WEBHOOK_SECRET: 'whsec',
+  HMAC_SECRET: 'hmac-secret-minimum-32-bytes-long-x',
 };
 
 describe('apiEnvSchema', () => {
@@ -94,6 +95,8 @@ describe('apiEnvSchema', () => {
       ...validApi,
       NODE_ENV: 'production',
       RATE_LIMIT_MULTIPLIER: '10',
+      OTP_IP_RATE_LIMIT: '1000',
+      OTP_EMAIL_RATE_LIMIT: '1000',
       EMAIL_ADAPTER: 'fake',
     };
     const result = parseEnv(apiEnvSchema, asProd);
@@ -101,7 +104,22 @@ describe('apiEnvSchema', () => {
     expect(result.ok).toBe(false);
     if (result.ok) return;
     expect(result.issues.some((i) => i.startsWith('RATE_LIMIT_MULTIPLIER:'))).toBe(true);
+    expect(result.issues.some((i) => i.startsWith('OTP_IP_RATE_LIMIT:'))).toBe(true);
+    expect(result.issues.some((i) => i.startsWith('OTP_EMAIL_RATE_LIMIT:'))).toBe(true);
     expect(result.issues.some((i) => i.startsWith('EMAIL_ADAPTER:'))).toBe(true);
+  });
+
+  it('accepts the OTP limit overrides outside production', () => {
+    const result = parseEnv(apiEnvSchema, {
+      ...validApi,
+      OTP_IP_RATE_LIMIT: '1000',
+      OTP_EMAIL_RATE_LIMIT: '500',
+    });
+
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.env.OTP_IP_RATE_LIMIT).toBe(1000);
+    expect(result.env.OTP_EMAIL_RATE_LIMIT).toBe(500);
   });
 });
 

@@ -65,7 +65,7 @@ export const apiEnvSchema = z
     JWT_ACTIVE_KID: z.string().min(1),
     JWT_KEYS_JSON: jsonArray(jwtKeyPairSchema),
     JWT_ISSUER: z.string().min(1).default('puja-essentials'),
-    API_INTERNAL_URL: z.url(),
+    API_INTERNAL_URL: z.url().optional(),
     WEB_ORIGIN: z.url(),
     REVALIDATE_SECRET: z.string().min(16),
     RAZORPAY_KEY_ID: z.string().min(1),
@@ -79,8 +79,19 @@ export const apiEnvSchema = z
     SHIPROCKET_EMAIL: z.string().optional(),
     SHIPROCKET_PASSWORD: z.string().optional(),
     SHIPROCKET_WEBHOOK_SECRET: z.string().optional(),
+    SHIPROCKET_BASE_URL: z.url().optional(),
+    SHIPROCKET_WEBHOOK_IPS: z.string().optional(),
     SENTRY_DSN: z.url().optional(),
     RATE_LIMIT_MULTIPLIER: z.coerce.number().min(1).optional(),
+    OTP_EMAIL_RATE_LIMIT: z.coerce.number().int().min(1).optional(),
+    OTP_IP_RATE_LIMIT: z.coerce.number().int().min(1).optional(),
+    TRUSTED_PROXIES: z.string().optional(),
+    JOBS_ENABLED: booleanString,
+    MEDIA_PUBLIC_BASE_URL: z.url().optional(),
+    SEARCH_SIMILARITY_THRESHOLD: z.coerce.number().min(0).max(1).optional(),
+    CONTACT_INBOX_EMAIL: z.string().email().optional(),
+    PII_REVEAL_TTL_SECONDS: z.coerce.number().int().min(1).optional(),
+    HMAC_SECRET: z.string().min(16).optional(),
   })
   .superRefine((env, ctx) => {
     if (!env.JWT_KEYS_JSON.some((key) => key.kid === env.JWT_ACTIVE_KID)) {
@@ -115,6 +126,20 @@ export const apiEnvSchema = z
       ctx.addIssue({
         code: 'custom',
         path: ['RATE_LIMIT_MULTIPLIER'],
+        message: 'only allowed when NODE_ENV=test',
+      });
+    }
+    if (env.OTP_EMAIL_RATE_LIMIT !== undefined && env.NODE_ENV !== 'test') {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['OTP_EMAIL_RATE_LIMIT'],
+        message: 'only allowed when NODE_ENV=test',
+      });
+    }
+    if (env.OTP_IP_RATE_LIMIT !== undefined && env.NODE_ENV !== 'test') {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['OTP_IP_RATE_LIMIT'],
         message: 'only allowed when NODE_ENV=test',
       });
     }

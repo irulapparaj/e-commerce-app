@@ -1,0 +1,107 @@
+/* Admin page header, stat tiles, banners and sections. */
+/* ---- page header, tiles, banners ------------------------------------------------------------- */
+.admin-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.admin-page-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.admin-page-description {
+  margin: 0.15rem 0 0;
+}
+
+.admin-page-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.admin-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--warning);
+  border-left-width: 4px;
+  border-radius: var(--radius-control);
+  background: var(--surface);
+}
+
+.admin-banner a {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.admin-stats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+}
+
+.admin-stat {
+  background: var(--surface);
+  padding: 0.75rem 0.875rem;
+}
+
+.admin-stat-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  margin: -0.75rem -0.875rem;
+  padding: 0.75rem 0.875rem;
+}
+
+.admin-stat-link:hover {
+  background: color-mix(in srgb, var(--text) 5%, transparent);
+}
+
+.admin-stat-label {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--admin-text-small);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.admin-stat-value {
+  margin: 0.2rem 0 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.admin-stat-warning .admin-stat-value {
+  color: var(--warning-text);
+}
+
+.admin-stat-hint {
+  margin: 0.2rem 0 0;
+  font-size: var(--admin-text-small);
+}
+
+.admin-section {
+  margin-top: 1.5rem;
+}
+
+.admin-section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}

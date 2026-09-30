@@ -3,10 +3,11 @@ import type { User } from '@prisma/client';
 
 import type { PrismaDb } from '../../db/prisma';
 import type { EmailPort } from '../../ports/email';
-import { staffInviteEmail } from '../auth/emails';
+import type { KeyProvider } from '../../ports/key-provider';
 import type { PublicUser } from '../auth/refresh.service';
 import { toPublicUser } from '../auth/refresh.service';
 import type { SecurityEvents } from '../auth/security-events';
+import { sendNow } from '../notifications';
 
 export interface CreateStaffInput {
   readonly email: string;
@@ -19,6 +20,7 @@ export interface CreateStaffDeps {
   readonly email: EmailPort;
   readonly events: SecurityEvents;
   readonly adminLoginUrl: string;
+  readonly keys: KeyProvider;
 }
 
 /** API half of staff onboarding (P05 adds the UI): creates the account without MFA and emails an invite. */
@@ -35,7 +37,12 @@ export const createStaff = async (
   const user = await deps.prisma.user.create({
     data: { email: input.email, name: input.name, role: input.role, mfaEnabled: false },
   });
-  await deps.email.send({ to: user.email, ...staffInviteEmail(input.name, deps.adminLoginUrl) });
+  await sendNow(
+    { prisma: deps.prisma, email: deps.email, keys: deps.keys },
+    'staff-invite',
+    user.email,
+    { name: input.name, loginUrl: deps.adminLoginUrl },
+  );
   deps.events.record('auth.staff.created', { userId: user.id, role: user.role, actorId });
   return toPublicUser(user);
 };

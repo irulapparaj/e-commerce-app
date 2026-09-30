@@ -1,0 +1,21 @@
+{
+  "status": 200,
+  "data": {
+    "available_courier_companies": [
+      {
+        "id": 1,
+        "courier_name": "Delhivery",
+        "rate": 45.00,
+        "etd": "2026-09-30",
+        "estimated_delivery_days": 4
+      },
+      {
+        "id": 2,
+        "courier_name": "Xpressbees",
+        "rate": 52.00,
+        "etd": "2026-09-29",
+        "estimated_delivery_days": 3
+      }
+    ]
+  }
+}

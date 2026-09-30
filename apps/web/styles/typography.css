@@ -1,0 +1,85 @@
+/* Type: Fraunces (display, optical sizing) for H1/H2 and the wordmark; Manrope for body and UI. */
+@layer base {
+  html {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: 0;
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  h1,
+  h2 {
+    font-family: var(--font-display);
+    font-weight: var(--display-weight);
+    font-style: var(--display-style);
+    letter-spacing: var(--display-tracking);
+  }
+
+  h1 {
+    font-size: var(--text-h1);
+    line-height: 1.1;
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+    line-height: 1.15;
+  }
+
+  h3 {
+    font-size: var(--text-h3);
+    line-height: 1.25;
+  }
+
+  h4 {
+    font-size: var(--text-base);
+    line-height: 1.4;
+  }
+
+  p {
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+    text-underline-offset: 0.16em;
+    text-decoration-thickness: 1px;
+  }
+
+  small {
+    font-size: var(--text-small);
+  }
+}
+
+@layer components {
+  .small-caps {
+    font-variant-caps: all-small-caps;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: var(--display-weight);
+    font-style: var(--display-style);
+    /* Fluid: 1rem on small viewports → 1.375rem on wide; sits above text-h3 nav triggers. */
+    font-size: clamp(1rem, 0.75rem + 1vw, 1.375rem);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+}

@@ -2,13 +2,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import {
-  brand,
-  DEFAULT_HSN_BY_CATEGORY,
-  FREE_SHIPPING_THRESHOLD_DEFAULT,
-  PICKUP_LOCATION_DEFAULT,
-  RETURN_WINDOW_DAYS_DEFAULT,
-} from '@pe/shared';
+import { brand, DEFAULT_HSN_BY_CATEGORY, SETTING_DEFAULTS } from '@pe/shared';
 
 import type { PrismaDb } from '../src/db/prisma';
 import { applyMovement } from '../src/modules/inventory/apply-movement';
@@ -33,40 +27,21 @@ export const slugify = (value: string): string =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 
-const descriptionDoc = (name: string) => ({
-  type: 'doc',
-  content: [
-    {
+const descriptionDoc = (name: string, description?: string) => {
+  const paragraphs = description
+    ? description.split('\n').filter((p) => p.trim().length > 0)
+    : [`${name} from ${brand.name}, made for everyday puja.`];
+  return {
+    type: 'doc',
+    content: paragraphs.map((text) => ({
       type: 'paragraph',
-      content: [{ type: 'text', text: `${name} from ${brand.name}, made for everyday puja.` }],
-    },
-  ],
-});
-
-export const SITE_SETTING_DEFAULTS: Readonly<Record<string, unknown>> = {
-  announcement_bar: { enabled: true, text: 'Free shipping on orders above ₹599' },
-  free_shipping_threshold: FREE_SHIPPING_THRESHOLD_DEFAULT,
-  brand: {
-    name: brand.name,
-    tagline: brand.tagline,
-    logoKey: null,
-    faviconKey: null,
-    placeholder: true,
-  },
-  gst_profile: {
-    gstin: '33AAAAA0000A1Z5',
-    legalName: `${brand.name} (placeholder)`,
-    stateCode: '33',
-    placeholder: true,
-  },
-  pickup_location: {
-    name: `${brand.name} Warehouse`,
-    line1: 'Placeholder address',
-    ...PICKUP_LOCATION_DEFAULT,
-  },
-  return_window_days: RETURN_WINDOW_DAYS_DEFAULT,
-  promo_popup: { enabled: false },
+      content: [{ type: 'text', text }],
+    })),
+  };
 };
+
+/** Every key's default lives with its schema in packages/shared (P05 settings). */
+export const SITE_SETTING_DEFAULTS: Readonly<Record<string, unknown>> = SETTING_DEFAULTS;
 
 const upsertCategoryTree = async (
   db: PrismaDb,
@@ -150,7 +125,7 @@ const upsertProduct = async (
     tags: seed.tags,
     isFeatured: seed.isFeatured,
     isActive: true,
-    description: descriptionDoc(seed.name),
+    description: descriptionDoc(seed.name, seed.description),
     specifications: seed.specifications,
   };
   const product = await db.product.upsert({
@@ -160,7 +135,8 @@ const upsertProduct = async (
     select: { id: true },
   });
   for (const variant of seed.variants) await upsertVariant(db, product.id, variant);
-  const imageKey = `products/${slug}/1.webp`;
+  // Base key without extension: derivatives are `${base}-${width}.${format}` (P04 media pipeline).
+  const imageKey = `products/${slug}/seed-1`;
   const image = await db.productImage.findFirst({
     where: { productId: product.id, objectKey: imageKey },
     select: { id: true },

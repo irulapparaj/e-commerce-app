@@ -71,7 +71,11 @@ export function CodeStep({
     onSubmit();
   };
   return (
-    <form onSubmit={handleSubmit} aria-labelledby="code-step-heading">
+    <form
+      onSubmit={handleSubmit}
+      aria-labelledby="code-step-heading"
+      style={{ maxWidth: 'min(304px, 100%)' }}
+    >
       <h2 id="code-step-heading" style={{ fontSize: 'var(--text-h3)' }}>
         {heading}
       </h2>

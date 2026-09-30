@@ -88,6 +88,17 @@ export class FakeShippingAdapter implements ShippingPort {
     return { shipmentId: `ship_${randomUUID()}`, awb, courier: COURIER, labelUrl: null };
   }
 
+  async cancelShipment(shipmentId: string): Promise<void> {
+    // Find and remove the AWB associated with this shipmentId, or no-op if not found
+    for (const [awb] of this.createdAt) {
+      if (awb.includes(shipmentId) || shipmentId.includes(awb)) {
+        this.createdAt.delete(awb);
+        return;
+      }
+    }
+    // No-op if shipment not found (idempotent)
+  }
+
   async createReversePickup(_input: CreateReversePickupInput): Promise<ReversePickup> {
     const awb = `${AWB_PREFIX}${randomUUID()}`;
     this.createdAt.set(awb, this.now());

@@ -152,6 +152,26 @@ describe('token service', () => {
     );
   });
 
+  it('signs reveal tokens bound to actor and customer that never pass as access tokens', async () => {
+    const now = new Date('2026-09-25T10:00:00Z');
+    const tokens = service(() => now);
+    const customerId = '7c1d2e3f-4a5b-4c6d-8e9f-0a1b2c3d4e5f';
+
+    const token = await tokens.signReveal({ actorId: USER_ID, customerId }, 300);
+    const claims = await tokens.verifyReveal(token);
+    const later = service(() => new Date(now.getTime() + 301_000));
+
+    expect(claims).toMatchObject({ actorId: USER_ID, customerId });
+    expect(claims.exp).toBe(Math.floor(now.getTime() / 1000) + 300);
+    await expect(tokens.verifyAccess(token, { audience: 'admin' })).rejects.toBeInstanceOf(
+      AppError,
+    );
+    await expect(later.verifyReveal(token)).rejects.toMatchObject({ code: 'REVEAL_EXPIRED' });
+    await expect(
+      tokens.verifyReveal(await tokens.signAccess({ sub: USER_ID, role: 'ADMIN', aud: 'admin' })),
+    ).rejects.toMatchObject({ code: 'REVEAL_EXPIRED' });
+  });
+
   it('rejects malformed claims even with a valid signature', async () => {
     const tokens = service();
     const { SignJWT } = await import('jose');

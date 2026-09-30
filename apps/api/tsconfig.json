@@ -1,7 +1,9 @@
 {
   "extends": "@pe/config/tsconfig.base.json",
   "compilerOptions": {
-    "types": ["node"]
+    "types": ["node"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "prisma/**/*.ts", "*.config.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "prisma/**/*.ts", "*.config.ts"]
 }

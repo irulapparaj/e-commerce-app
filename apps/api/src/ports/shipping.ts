@@ -66,6 +66,7 @@ export interface Tracking {
 export interface ShippingPort {
   checkServiceability(input: ServiceabilityInput): Promise<Serviceability>;
   createShipment(input: CreateShipmentInput): Promise<Shipment>;
+  cancelShipment(shipmentId: string): Promise<void>;
   createReversePickup(input: CreateReversePickupInput): Promise<ReversePickup>;
   track(awb: string): Promise<Tracking>;
 }

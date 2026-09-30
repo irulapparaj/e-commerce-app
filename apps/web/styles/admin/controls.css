@@ -1,0 +1,190 @@
+/* Admin controls: buttons, inputs, forms, tabs. Colours come only from tokens.css. */
+/* ---- buttons, inputs, forms ------------------------------------------------------------------- */
+.admin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-weight: 500;
+  line-height: 1.2;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.admin-btn:hover:not(:disabled) {
+  border-color: var(--text);
+}
+
+.admin-btn:active:not(:disabled) {
+  opacity: 0.85;
+}
+
+.admin-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.admin-btn-primary:hover:not(:disabled) {
+  border-color: var(--accent);
+  filter: brightness(0.95);
+}
+
+.admin-btn-danger {
+  color: var(--critical);
+  border-color: var(--critical);
+}
+
+.admin-btn-small {
+  padding: 0.2rem 0.5rem;
+  font-size: var(--admin-text-small);
+}
+
+.admin-btn-icon {
+  padding: 0.2rem 0.45rem;
+  line-height: 1;
+}
+
+.admin-input,
+.admin-select,
+.admin-textarea {
+  width: 100%;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+
+.admin-input[aria-invalid='true'],
+.admin-select[aria-invalid='true'],
+.admin-textarea[aria-invalid='true'] {
+  border-color: var(--critical);
+}
+
+.admin-input-small {
+  padding: 0.2rem 0.4rem;
+  font-size: var(--admin-text-small);
+}
+
+.admin-code {
+  letter-spacing: 0.3em;
+  font-variant-numeric: tabular-nums;
+  max-width: 12rem;
+}
+
+.admin-textarea {
+  min-height: 5rem;
+  resize: vertical;
+}
+
+.admin-field {
+  margin-bottom: 0.75rem;
+}
+
+.admin-field-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.admin-field-inline .admin-help,
+.admin-field-inline .admin-error {
+  flex-basis: 100%;
+}
+
+.admin-label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.admin-form {
+  max-width: 40rem;
+}
+
+.admin-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0 1rem;
+}
+
+.admin-form-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.admin-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.admin-checkbox-group legend {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  padding: 0;
+}
+
+.admin-checkbox-group label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.admin-filter-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.5rem;
+  align-items: end;
+  margin-bottom: 0.75rem;
+}
+
+.admin-filter-bar .admin-field {
+  margin-bottom: 0;
+}
+
+/* ---- tabs -------------------------------------------------------------------------------------- */
+.admin-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--hairline);
+  margin-bottom: 1rem;
+}
+
+.admin-tab {
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: 0.5rem 0.75rem;
+  font: inherit;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.admin-tab[aria-selected='true'] {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+  font-weight: 600;
+}

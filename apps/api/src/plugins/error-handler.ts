@@ -74,7 +74,7 @@ export const errorHandlerPlugin = sharedPlugin(async (app) => {
     void sendError(reply, 500, 'INTERNAL', new AppError('INTERNAL').message);
   });
 
-  app.setNotFoundHandler((request, reply) => {
-    void sendError(reply, 404, 'NOT_FOUND', `Route ${request.method} ${request.url} not found`);
+  app.setNotFoundHandler((_request, reply) => {
+    void sendError(reply, 404, 'NOT_FOUND', 'Route not found');
   });
 });

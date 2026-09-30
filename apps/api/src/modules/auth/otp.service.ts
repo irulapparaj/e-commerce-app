@@ -15,6 +15,8 @@ export const OTP_SEND_LIMITS = {
   perEmail: { limit: 3, windowSeconds: 600 },
   perIp: { limit: 10, windowSeconds: 3600 },
 } as const;
+export const OTP_VERIFY_RATE_LIMIT = 30;
+export const OTP_VERIFY_WINDOW_SECONDS = 600;
 const OTP_DIGITS = 6;
 const OTP_MAX = 10 ** OTP_DIGITS;
 
@@ -40,11 +42,15 @@ export interface OtpServiceDeps {
   readonly rateLimiter: RateLimiter;
   readonly now?: () => number;
   readonly sleep?: (ms: number) => Promise<void>;
+  readonly sendLimitOverrides?: {
+    readonly perEmail?: number;
+    readonly perIp?: number;
+  };
 }
 
 export interface OtpService {
   issue(email: string, ip: string): Promise<{ nonce: string }>;
-  verify(email: string, nonce: string, otp: string): Promise<boolean>;
+  verify(email: string, nonce: string, otp: string, ip: string): Promise<boolean>;
 }
 
 const defaultSleep = (ms: number): Promise<void> =>
@@ -57,6 +63,7 @@ export const createOtpService = ({
   rateLimiter,
   now = Date.now,
   sleep = defaultSleep,
+  sendLimitOverrides,
 }: OtpServiceDeps): OtpService => {
   const digest = (address: string, nonce: string, otp: string): string =>
     keys.blindIndex(`otp:${address}:${nonce}:${otp}`);
@@ -66,23 +73,40 @@ export const createOtpService = ({
     if (remaining > 0) await sleep(remaining);
   };
 
+  const emailSendLimit = sendLimitOverrides?.perEmail ?? OTP_SEND_LIMITS.perEmail.limit;
+  const ipSendLimit = sendLimitOverrides?.perIp ?? OTP_SEND_LIMITS.perIp.limit;
+
   const issue: OtpService['issue'] = async (address, ip) => {
     const startedAt = now();
-    await rateLimiter.consume([
-      { key: `otp-send:email:${hashEmailForKey(address)}`, ...OTP_SEND_LIMITS.perEmail },
-      { key: `otp-send:ip:${ip}`, ...OTP_SEND_LIMITS.perIp },
-    ]);
-    const otp = generateOtp();
-    const nonce = randomUUID();
-    const key = otpKey(address, nonce);
-    await valkey.hset(key, { hmac: digest(address, nonce, otp), attempts: 0 });
-    await valkey.expire(key, OTP_TTL_SECONDS);
-    await email.send({ to: address, ...otpEmail(otp) });
-    await padResponse(startedAt);
-    return { nonce };
+    try {
+      await rateLimiter.consume([
+        {
+          key: `otp-send:email:${hashEmailForKey(address)}`,
+          limit: emailSendLimit,
+          windowSeconds: OTP_SEND_LIMITS.perEmail.windowSeconds,
+        },
+        {
+          key: `otp-send:ip:${ip}`,
+          limit: ipSendLimit,
+          windowSeconds: OTP_SEND_LIMITS.perIp.windowSeconds,
+        },
+      ]);
+      const otp = generateOtp();
+      const nonce = randomUUID();
+      const key = otpKey(address, nonce);
+      await valkey.hset(key, { hmac: digest(address, nonce, otp), attempts: 0 });
+      await valkey.expire(key, OTP_TTL_SECONDS);
+      await email.send({ to: address, ...otpEmail(otp) });
+      return { nonce };
+    } finally {
+      await padResponse(startedAt);
+    }
   };
 
-  const verify: OtpService['verify'] = async (address, nonce, otp) => {
+  const verify: OtpService['verify'] = async (address, nonce, otp, ip) => {
+    await rateLimiter.consume([
+      { key: `otp-verify:ip:${ip}`, limit: OTP_VERIFY_RATE_LIMIT, windowSeconds: OTP_VERIFY_WINDOW_SECONDS },
+    ]);
     const key = otpKey(address, nonce);
     const record = await valkey.hgetall(key);
     if (record.hmac === undefined) return false;

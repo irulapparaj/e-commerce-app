@@ -1,12 +1,378 @@
 {
+  "account": {
+    "overview": "Overview",
+    "orders": "Orders",
+    "addresses": "Addresses",
+    "security": "Security",
+    "profile": "Profile",
+    "editProfile": "Edit profile",
+    "saveProfile": "Save changes",
+    "name": "Full name",
+    "phone": "Phone number",
+    "phonePlaceholder": "+91XXXXXXXXXX",
+    "recentOrders": "Recent orders",
+    "viewAllOrders": "View all orders",
+    "defaultAddress": "Default address",
+    "noAddresses": "No addresses saved",
+    "addAddress": "Add address",
+    "editAddress": "Edit",
+    "deleteAddress": "Delete",
+    "setDefault": "Set as default",
+    "maxAddresses": "You can save up to 10 addresses",
+    "confirmDelete": "Delete this address?",
+    "deleteConfirmBody": "This address will be removed from your account.",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "sessions": "Active sessions",
+    "currentSession": "This device",
+    "revokeSession": "Sign out",
+    "logoutEverywhere": "Sign out of all devices",
+    "exportData": "Download your data",
+    "exportBody": "We will email you a link to download all the data we hold about you.",
+    "exportRequest": "Request download",
+    "exportSent": "We will email you a link shortly.",
+    "deleteAccount": "Delete account",
+    "deleteAccountBody": "This will permanently delete your account and all associated data. Orders in progress will block deletion.",
+    "deleteConfirmLabel": "Type DELETE to confirm",
+    "deleteConfirmPlaceholder": "DELETE",
+    "deleteButton": "Delete my account",
+    "reauthRequired": "Please verify your identity to continue.",
+    "reauthSend": "Send verification code",
+    "reauthVerify": "Verify",
+    "orderDetail": "Order {orderNumber}",
+    "items": "Items",
+    "orderTimeline": "Order timeline",
+    "trackPackage": "Track package",
+    "contactUs": "Contact us about this order",
+    "paymentStatus": "Payment",
+    "shippingAddress": "Shipping address",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "discount": "Discount",
+    "taxCgst": "CGST",
+    "taxSgst": "SGST",
+    "taxIgst": "IGST",
+    "total": "Total",
+    "inclTax": "Includes {amount} GST"
+  },
+  "login": {
+    "title": "Sign in",
+    "subtitle": "No password needed — we will email you a one-time code.",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "you@example.com",
+    "sendCode": "Send code",
+    "otpHeading": "Check your email",
+    "otpBody": "Enter the 6-digit code we sent to {email}.",
+    "otpLabel": "Verification code",
+    "verify": "Sign in",
+    "resend": "Resend code",
+    "resendIn": "Resend in {seconds}s",
+    "backToEmail": "Use a different email",
+    "genericError": "Something went wrong. Please try again.",
+    "adminTitle": "Admin sign in",
+    "totpHeading": "Two-factor authentication",
+    "totpBody": "Enter the 6-digit code from your authenticator app.",
+    "totpLabel": "Authenticator code",
+    "recoveryCode": "Use a recovery code",
+    "enrolHeading": "Set up two-factor authentication",
+    "enrolBody": "Scan the QR code with your authenticator app, then enter the code to confirm.",
+    "enrolCopyCodes": "Copy recovery codes",
+    "enrolCodesCopied": "Copied",
+    "enrolConfirm": "Enable 2FA"
+  },
   "home": {
-    "title": "Puja Essentials",
-    "tagline": "Everyday devotion, thoughtfully made.",
+    "title": "Invita Company",
+    "tagline": "Quality products, thoughtfully delivered.",
     "comingSoon": "Coming soon",
-    "intro": "Agarbatti, dhoop, camphor and puja samagri, dispatched from Chennai."
+    "intro": "Quality products dispatched with care.",
+    "shopByCategory": "Shop by category",
+    "bestSellers": "Best sellers",
+    "shopAll": "Shop all products",
+    "hero": {
+      "title": "Everything your daily puja needs, in one place",
+      "lede": "Agarbatti, dhoop, camphor and samagri chosen for how they burn, smell and last. Packed with care and dispatched from {city}.",
+      "primaryCta": "Shop best sellers",
+      "secondaryCta": "Explore categories"
+    },
+    "trust": {
+      "label": "Why shop with us",
+      "shipping": "Free shipping above {amount}",
+      "shippingAll": "Tracked delivery across India",
+      "returns": "{days}-day returns",
+      "payments": "Secure Razorpay checkout",
+      "dispatch": "Ships from {city}"
+    },
+    "story": {
+      "eyebrow": "Our promise",
+      "fallbackHeading": "Everyday devotion, thoughtfully made.",
+      "body": "Sourced directly from verified makers across South India, priced with GST included and described honestly. A product joins the catalogue only when it earns its place.",
+      "cta": "Read our story"
+    },
+    "assure": {
+      "heading": "Why devotees trust us",
+      "items": {
+        "pure": {
+          "title": "Nothing synthetic",
+          "body": "No charcoal base, no artificial perfume, no chemical dyes. Every ingredient is listed on the pack."
+        },
+        "fresh": {
+          "title": "Small-batch & fresh",
+          "body": "Made in small runs and dispatched within days of production — fragrance at its strongest."
+        },
+        "chosen": {
+          "title": "Chosen by hand",
+          "body": "A product joins the catalogue only after we burn, smell and use it ourselves. If it fades, it is out."
+        }
+      }
+    },
+    "testimonials": {
+      "eyebrow": "From our customers",
+      "heading": "Trusted for the daily puja",
+      "ratedLabel": "Rated {rating} out of 5",
+      "verified": "Verified buyer",
+      "items": {
+        "first": {
+          "quote": "The sambrani smells exactly like the one my mother used. I have ordered twice already — always fresh.",
+          "name": "Meenakshi R.",
+          "city": "Madurai",
+          "rating": "5"
+        },
+        "second": {
+          "quote": "Packed with real care. The camphor arrived intact and burns clean, with no black residue at all.",
+          "name": "Prakash V.",
+          "city": "Coimbatore",
+          "rating": "5"
+        },
+        "third": {
+          "quote": "Delivery to Bengaluru took three days. The rose attar is lovely — my whole puja room smells of it.",
+          "name": "Lakshmi N.",
+          "city": "Bengaluru",
+          "rating": "4"
+        }
+      }
+    },
+    "faq": {
+      "eyebrow": "Before you order",
+      "heading": "Common questions",
+      "cta": "See all questions"
+    }
+  },
+  "catalogue": {
+    "home": "Home",
+    "search": "Search",
+    "searchResultsFor": "Results for \"{query}\"",
+    "noResults": "No results for \"{query}\"",
+    "browseCategories": "Browse categories",
+    "categories": "Categories",
+    "products": "Products",
+    "productCount": "{count, plural, =0 {No products} one {# product} other {# products}}",
+    "allProducts": "All Products",
+    "allProductsMeta": "Browse our complete collection of puja essentials — incense, camphor, and more.",
+    "emptyCollection": "No products found. Try adjusting your filters.",
+    "collectionMeta": "Shop {name} — puja essentials from Chennai",
+    "description": "Description",
+    "howToUse": "How to use",
+    "specifications": "Specifications",
+    "manufacturer": "Manufactured by",
+    "relatedProducts": "You may also like",
+    "addToCart": "Add to cart",
+    "buyNow": "Buy now",
+    "addedToCart": "Added to cart",
+    "outOfStock": "Out of stock",
+    "lowStock": "Low stock",
+    "inStock": "In stock",
+    "inclTax": "Incl. of all taxes",
+    "sortBy": "Sort",
+    "sortFeatured": "Featured",
+    "sortPriceAsc": "Price: Low to High",
+    "sortPriceDesc": "Price: High to Low",
+    "sortNewest": "Newest",
+    "filterPrice": "Price range",
+    "filterMin": "Min (₹)",
+    "filterMax": "Max (₹)",
+    "filterRangeError": "Enter a valid price range",
+    "sliderMin": "Minimum price",
+    "sliderMax": "Maximum price",
+    "apply": "Apply",
+    "showItems": "{count, plural, =0 {No matching items} one {Show # item} other {Show # items}}",
+    "reset": "Reset",
+    "filter": "Filter",
+    "itemCount": "{count, plural, =0 {No items} one {# item} other {# items}}",
+    "priceOver": "Over {amount}",
+    "priceUnder": "Under {amount}",
+    "removePriceFilter": "Remove price filter",
+    "gridView": "Grid view",
+    "listView": "List view",
+    "gallery": "Product gallery",
+    "thumbnail": "View image {n}",
+    "zoomImage": "Zoom image",
+    "closeZoom": "Close zoom",
+    "selectVariant": "Select {label}",
+    "variantOutOfStock": "{label} — out of stock",
+    "quantity": "Quantity",
+    "sale": "Sale",
+    "searchPlaceholder": "Search products and categories…",
+    "searchResults": "{count, plural, =0 {No results} one {# result} other {# results}}",
+    "openSearch": "Open search",
+    "closeSearch": "Close search",
+    "percentOff": "{percent}% off",
+    "fewLeft": "Only a few left",
+    "ratingLabel": "Rated {avg} out of 5 from {count, plural, one {# review} other {# reviews}}",
+    "searchBrowse": "Browse by category",
+    "searchHint": "Start typing to search products and categories.",
+    "delivery": {
+      "heading": "Delivery & returns",
+      "freeShipping": "Free shipping on orders above {amount}",
+      "shippingAll": "Tracked delivery across India",
+      "dispatch": "Dispatched from {city}",
+      "returns": "{days}-day returns, refunded to your original payment method",
+      "secure": "Secure checkout with UPI, cards and netbanking"
+    }
   },
   "admin": {
     "title": "Admin console",
     "placeholder": "The admin console arrives with plan P05."
+  },
+  "shell": {
+    "skipToContent": "Skip to content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "menuTitle": "Browse",
+    "search": "Search",
+    "account": "Account",
+    "signIn": "Sign in",
+    "cart": "Cart",
+    "cartWithCount": "Cart, {count, plural, =0 {empty} one {# item} other {# items}}",
+    "themeToLight": "Switch to light theme",
+    "themeToDark": "Switch to dark theme",
+    "dismissAnnouncement": "Dismiss announcement",
+    "loading": "Loading",
+    "announcement": "Announcement",
+    "brandHome": "{brand} home"
+  },
+  "appearance": {
+    "open": "Change look and feel",
+    "title": "Look & feel",
+    "intro": "Pick a visual style for the store. Your choice is remembered on this device.",
+    "default": "Default",
+    "skins": {
+      "classic": {
+        "name": "Classic",
+        "description": "Warm parchment and a single saffron accent; Fraunces and Manrope."
+      },
+      "mandir-gold": {
+        "name": "Mandir Gold",
+        "description": "Temple maroon and burnished gold; Prata headings."
+      },
+      "pushpa-purity": {
+        "name": "Pushpa Purity",
+        "description": "Ivory, tulsi green and lotus pink; pill buttons and italic Cormorant headings."
+      },
+      "utsav-rang": {
+        "name": "Utsav Rang",
+        "description": "Marigold and saffron, tulsi-green buttons; Rozha One headings for festival energy."
+      },
+      "sandhya-aarti": {
+        "name": "Sandhya Aarti",
+        "description": "Evening-aarti blues and brass gold; Cinzel capitals, square corners."
+      }
+    }
+  },
+  "nav": {
+    "main": "Main navigation",
+    "mobile": "Site menu",
+    "exploreAll": "Explore all {category}",
+    "categoryImage": "{category} collection",
+    "empty": "Collections are on their way."
+  },
+  "footer": {
+    "label": "Site footer",
+    "shop": "Shop",
+    "quickLinks": "Quick links",
+    "policies": "Policies",
+    "business": "Business",
+    "links": {
+      "about": "About us",
+      "contact": "Contact",
+      "faq": "FAQ",
+      "blog": "Knowledge hub",
+      "seller": "Become a seller",
+      "grievance": "Grievance officer",
+      "shipping": "Shipping policy",
+      "refund": "Refund & return policy",
+      "privacy": "Privacy policy",
+      "terms": "Terms of service",
+      "pricing": "Pricing policy"
+    },
+    "gstin": "GSTIN {gstin}",
+    "udyam": "Udyam UDYAM-TN-00-0000000",
+    "placeholderMarker": "placeholder",
+    "dispatchedFrom": "Dispatched from {city}",
+    "newsletter": {
+      "heading": "Stay in the loop",
+      "body": "New arrivals and festival offers, once a month. No noise.",
+      "emailLabel": "Your email",
+      "emailPlaceholder": "you@example.com",
+      "submit": "Subscribe"
+    },
+    "social": {
+      "heading": "Follow us",
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "youtube": "YouTube",
+      "x": "X",
+      "linkedin": "LinkedIn"
+    },
+    "copyright": "© {year} {brand}. All rights reserved."
+  },
+  "a11y": {
+    "salePrice": "Sale price",
+    "regularPrice": "Regular price",
+    "quantity": "Quantity",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "close": "Close",
+    "breadcrumb": "Breadcrumb",
+    "pagination": "Pagination",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "page": "Page {page}",
+    "loading": "Loading",
+    "notifications": "Notifications",
+    "dismiss": "Dismiss",
+    "imagePlaceholder": "No image yet"
+  },
+  "cart": {
+    "title": "Cart ({count, plural, =0 {empty} one {# item} other {# items}})",
+    "items": "Cart items",
+    "empty": "Your cart is empty",
+    "emptyHint": "Add some products and come back here.",
+    "continueShopping": "Continue shopping",
+    "remove": "Remove",
+    "checkout": "Proceed to checkout",
+    "viewCart": "View cart",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "shippingFree": "Free",
+    "shippingCalculated": "Calculated at checkout",
+    "total": "Total",
+    "freeShippingUnlocked": "You've unlocked free shipping!",
+    "freeShippingRemaining": "Add {amount} more for free shipping",
+    "pageTitle": "Your cart",
+    "pageDescription": "Review the items in your cart before checking out.",
+    "orderSummary": "Order summary",
+    "loading": "Loading cart"
+  },
+  "errors": {
+    "notFound": {
+      "title": "We could not find that page",
+      "body": "The link may be old, or the page may have moved. The collections are still here.",
+      "home": "Back to home"
+    },
+    "generic": {
+      "title": "Something went wrong",
+      "body": "We could not load this page. Please try again in a moment.",
+      "retry": "Try again"
+    }
   }
 }

@@ -1,0 +1,6 @@
+ruleId	alert	url	param	attack	evidence	justification	owner
+10016	Web Browser XSS Protection Not Set	http://web:3000	–	–	–	CSP with nonce is our primary XSS mitigation; X-XSS-Protection is deprecated and not emitted deliberately	p17-security-hardening
+10015	Incomplete or No Cache-control Header Set	http://web:3000/[locale]	–	–	–	Public Next.js pages are intentionally cacheable; only authenticated API responses carry no-store	p17-security-hardening
+10015	Incomplete or No Cache-control Header Set	http://web:3000/_next/static	–	–	–	Static assets have immutable cache headers by design	p17-security-hardening
+10055	CSP: style-src 'unsafe-inline'	http://web:3000	–	–	–	Accepted V1 exception documented in DESIGN §11.3; hash/nonce styles deferred to Phase 4 (P27)	p17-security-hardening
+10098	Cross-Domain Misconfiguration	http://web:3000	–	–	–	CORS is not configured for the web origin; the API has strict origin allow-list	p17-security-hardening

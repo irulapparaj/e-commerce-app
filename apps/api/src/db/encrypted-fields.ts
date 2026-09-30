@@ -19,6 +19,7 @@ export const ENCRYPTED_FIELDS: Readonly<Record<string, EncryptedModelSpec>> = {
     hmac: { phone: 'phoneHmac' },
     json: { shippingAddress: ['line1', 'line2', 'phone'] },
   },
+  NewsletterSubscriber: { fields: ['emailEncrypted'] },
 };
 
 export const ENCRYPTED_MODELS = Object.keys(ENCRYPTED_FIELDS);

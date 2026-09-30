@@ -52,7 +52,7 @@ describe('envelope', () => {
 
 describe('brand', () => {
   it('exposes the placeholder brand without a logo', () => {
-    expect(brand.name).toBe('Puja Essentials');
+    expect(brand.name).toBe('Invita Company');
     expect(brand.logoKey).toBeNull();
   });
 });

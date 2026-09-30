@@ -4,6 +4,9 @@ import type { FastifyInstance, FastifyRequest } from 'fastify';
 
 import { type Audience, STEP_UP_TTL_SECONDS } from './token.service';
 
+export const REAUTH_TTL_SECONDS = 300;
+export const REAUTH_AMR = 'reauth' as const;
+
 export interface AuthenticatedUser {
   readonly id: string;
   readonly role: Role;
@@ -22,6 +25,8 @@ export interface Guards {
   requireAudience(audience: Audience): Guard;
   requireMfaEnrolled(): Guard;
   requireStepUp(): Guard;
+  /** Accepts either `step-up` (admin TOTP) or `reauth` (customer OTP) depending on allowed set. */
+  requireAmr(allowed: readonly string[]): Guard;
 }
 
 const BEARER_PREFIX = 'Bearer ';
@@ -79,5 +84,23 @@ export const createGuards = (app: FastifyInstance, now: () => Date = () => new D
     }
   };
 
-  return { authenticate, requireRole, requireAudience, requireMfaEnrolled, requireStepUp };
+  const requireAmr: Guards['requireAmr'] = (allowed) => async (request) => {
+    const user = currentUser(request);
+    const nowSeconds = Math.floor(now().getTime() / 1000);
+    const hasAmr = allowed.some((amr) => user.amr.includes(amr));
+    if (!hasAmr || user.stepUpExp === null || user.stepUpExp <= nowSeconds) {
+      throw new AppError('REAUTH_REQUIRED', undefined, {
+        details: { windowSeconds: REAUTH_TTL_SECONDS },
+      });
+    }
+  };
+
+  return {
+    authenticate,
+    requireRole,
+    requireAudience,
+    requireMfaEnrolled,
+    requireStepUp,
+    requireAmr,
+  };
 };

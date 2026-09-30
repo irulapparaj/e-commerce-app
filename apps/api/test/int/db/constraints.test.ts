@@ -116,15 +116,17 @@ describe('database constraints', () => {
       ).resolves.toBeDefined();
     });
 
-    it('rejects an order carrying both CGST and IGST, or no tax with a positive total', async () => {
+    it('rejects an order carrying both CGST and IGST, or only CGST without SGST', async () => {
       const prisma = getPrisma();
 
+      // Both domestic (CGST+SGST) and interstate (IGST) set simultaneously — invalid
       await expect(
         prisma.order.create({ data: orderBase(adminId, { igstAmount: 5 }) }),
       ).rejects.toThrow(/order_tax_pair/);
+      // CGST without matching SGST — invalid (must have both or neither for domestic)
       await expect(
         prisma.order.create({
-          data: orderBase(adminId, { cgstAmount: 0, sgstAmount: 0, igstAmount: 0 }),
+          data: orderBase(adminId, { cgstAmount: 191, sgstAmount: 0, igstAmount: 0 }),
         }),
       ).rejects.toThrow(/order_tax_pair/);
     });

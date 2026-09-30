@@ -57,7 +57,7 @@ export const createLoginService = ({
 }: LoginServiceDeps): LoginService => {
   /** Never branches on account existence before the code is verified (P03 review note). */
   const verifyOtpLogin: LoginService['verifyOtpLogin'] = async (input, meta) => {
-    const ok = await otp.verify(input.email, input.nonce, input.otp);
+    const ok = await otp.verify(input.email, input.nonce, input.otp, meta.ip);
     if (!ok) {
       events.record('auth.otp.failed', { email: input.email, ip: meta.ip });
       throw new AppError('INVALID_OTP');

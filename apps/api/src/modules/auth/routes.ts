@@ -20,7 +20,7 @@ export const sessionMeta = (request: FastifyRequest): SessionMeta => {
 /** DESIGN §9 Auth: OTP login, refresh and logout. Every body is a strict Zod object. */
 export const authRoutes = async (instance: FastifyInstance): Promise<void> => {
   const app = instance.withTypeProvider<ZodTypeProvider>();
-  const { auth, guards } = app;
+  const { auth, guards, rateLimiter } = app;
 
   app.post('/auth/send-otp', { schema: { body: sendOtpBody } }, async (request) => {
     const { nonce } = await auth.otp.issue(request.body.email, request.ip);
@@ -29,12 +29,15 @@ export const authRoutes = async (instance: FastifyInstance): Promise<void> => {
   });
 
   app.post('/auth/verify-otp', { schema: { body: verifyOtpBody } }, async (request) => {
-    const result = await auth.login.verifyOtpLogin(request.body, sessionMeta(request));
+    await rateLimiter.consume([{ key: `otp-verify:ip:${request.ip}`, limit: 15, windowSeconds: 600 }]);
+    const meta = sessionMeta(request);
+    const result = await auth.login.verifyOtpLogin(request.body, meta);
     if (result.kind === 'mfa-required')
       return ok({ mfaRequired: true as const, mfaToken: result.mfaToken });
     if (result.kind === 'mfa-enrolment-required')
       return ok({ mfaEnrolmentRequired: true as const, mfaToken: result.mfaToken });
     const { accessToken, refreshToken, csrfToken, user, audience, sessionId } = result.session;
+    await app.auth.hooks.emitLogin({ userId: user.id, sessionId, previousSessionId: meta.previousSessionId ?? null });
     return ok({ accessToken, refreshToken, csrfToken, user, audience, sessionId });
   });
 

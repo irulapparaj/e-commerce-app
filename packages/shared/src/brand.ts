@@ -1,6 +1,6 @@
 export const brand = {
-  name: 'Puja Essentials',
-  tagline: 'Everyday devotion, thoughtfully made.',
+  name: 'Invita Company',
+  tagline: 'Quality products, thoughtfully delivered.',
   logoKey: null,
 } as const;
 

@@ -31,8 +31,23 @@ export interface PutObjectInput extends ObjectRef {
   readonly contentType: string;
 }
 
+export interface ObjectSummary {
+  readonly key: string;
+  readonly size: number;
+  readonly lastModified: Date;
+}
+
+export interface ListObjectsInput {
+  readonly bucket: string;
+  readonly prefix: string;
+  /** Upper bound on the keys returned; callers that need everything page by repeated calls. */
+  readonly limit?: number;
+}
+
 export interface ObjectStoragePort {
   presignPut(input: PresignPutInput): Promise<PresignedUpload>;
+  /** Every object under a prefix, oldest key order not guaranteed; used by the retention job. */
+  list(input: ListObjectsInput): Promise<readonly ObjectSummary[]>;
   presignGet(input: ObjectRef & { readonly expiresSec: number }): Promise<{ url: string }>;
   head(ref: ObjectRef): Promise<ObjectHead>;
   delete(ref: ObjectRef): Promise<void>;

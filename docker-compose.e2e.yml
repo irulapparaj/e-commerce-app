@@ -14,6 +14,12 @@ x-api-env: &api-env
   SMTP_URL: smtp://mailpit:1025
   API_INTERNAL_URL: http://api:4000
   WEB_ORIGIN: http://localhost:3000
+  SEARCH_ADAPTER: postgres
+  JOBS_ENABLED: 'true'
+  # Derivatives are read by the browser straight from MinIO (bucket `media` is download-only).
+  MEDIA_PUBLIC_BASE_URL: http://localhost:9000/media
+  # Short reveal window so admin-customers.spec.ts can watch the re-mask without waiting five minutes.
+  PII_REVEAL_TTL_SECONDS: '8'
 
 services:
   migrate:
@@ -54,6 +60,7 @@ services:
       NODE_ENV: test
       API_INTERNAL_URL: http://api:4000
       WEB_ORIGIN: http://localhost:3000
+      NEXT_PUBLIC_MEDIA_HOST: localhost:9000
     ports:
       - '3000:3000'
     depends_on:

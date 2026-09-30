@@ -44,7 +44,7 @@ export const applyMovement = async (
   const stock = variant.stock + input.delta;
   if (stock < 0) {
     throw new AppError('INSUFFICIENT_STOCK', undefined, {
-      details: { variantId: input.variantId, available: variant.stock, requested: -input.delta },
+      details: { variantId: input.variantId },
     });
   }
 

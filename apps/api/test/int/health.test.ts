@@ -42,7 +42,7 @@ describe('health endpoints', () => {
     const db = { prisma: getPrisma(), raw: getPrismaRaw() };
     const app = await buildApp({
       env,
-      ports: createPorts(env),
+      ports: createPorts(env, {}, { prismaRaw: getPrismaRaw() }),
       valkey,
       db,
       disconnectDbOnClose: false,

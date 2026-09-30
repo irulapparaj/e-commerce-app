@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 import { postJson } from '@/lib/auth/client';
 
@@ -12,7 +13,13 @@ type Step = 'email' | 'otp' | 'totp' | 'enrol';
 const ADMIN_HOME = '/admin';
 
 export function AdminLoginForm() {
-  const [step, setStep] = useState<Step>('email');
+  const searchParams = useSearchParams();
+  // When a storefront login hands off to admin (mfa=1 or enrol=1), skip straight to the right step.
+  const fromMfa = searchParams.get('mfa') === '1';
+  const fromEnrol = searchParams.get('enrol') === '1';
+  const initialStep: Step = fromEnrol ? 'enrol' : fromMfa ? 'totp' : 'email';
+
+  const [step, setStep] = useState<Step>(initialStep);
   const [email, setEmail] = useState('');
   const [nonce, setNonce] = useState('');
   const [otp, setOtp] = useState('');
@@ -20,6 +27,23 @@ export function AdminLoginForm() {
   const [enrolment, setEnrolment] = useState<Enrolment | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // When arriving via ?enrol=1, the __Host-mfa cookie is already set by the storefront verify-otp
+  // call; kick off enrolment immediately using that cookie.
+  useEffect(() => {
+    if (!fromEnrol) return;
+    setBusy(true);
+    void postJson<Enrolment>('/api/auth/mfa/enrol', {}).then(({ envelope }) => {
+      setBusy(false);
+      if (!envelope.success || envelope.data === null) {
+        setError(GENERIC_ERROR);
+        return;
+      }
+      setEnrolment(envelope.data);
+      setStep('enrol');
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const run = async (action: () => Promise<void>) => {
     setBusy(true);

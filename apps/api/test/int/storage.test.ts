@@ -98,4 +98,30 @@ describe('S3ObjectStorageAdapter against MinIO', () => {
     expect(await storage.headBucket('imports')).toBe(true);
     expect(await storage.headBucket(`missing-${randomUUID()}`)).toBe(false);
   });
+
+  it('lists objects under a prefix with size and last-modified, honouring the limit', async () => {
+    const { storage } = testApp.ports;
+    const prefix = `list-${randomUUID()}/`;
+    for (const name of ['a', 'b', 'c']) {
+      await storage.put({
+        bucket: 'imports',
+        key: `${prefix}${name}.txt`,
+        body: name,
+        contentType: 'text/plain',
+      });
+    }
+
+    const all = await storage.list({ bucket: 'imports', prefix });
+    const limited = await storage.list({ bucket: 'imports', prefix, limit: 2 });
+    const none = await storage.list({ bucket: 'imports', prefix: `${prefix}zzz` });
+
+    expect(all.map((object) => object.key).sort()).toEqual([
+      `${prefix}a.txt`,
+      `${prefix}b.txt`,
+      `${prefix}c.txt`,
+    ]);
+    expect(all[0]).toMatchObject({ size: 1, lastModified: expect.any(Date) });
+    expect(limited).toHaveLength(2);
+    expect(none).toEqual([]);
+  });
 });
