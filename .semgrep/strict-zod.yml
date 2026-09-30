@@ -1,0 +1,23 @@
+rules:
+  - id: zod-object-without-strict
+    message: >
+      Zod route schemas must use .strict() so that extra fields (mass assignment payloads)
+      cause a 400 instead of being silently ignored (DESIGN §11.3).
+      Change z.object({...}) to z.strictObject({...}) or add .strict() before .parse()/.safeParse().
+    severity: WARNING
+    languages: [typescript]
+    pattern-either:
+      - pattern: z.object({...})
+      - patterns:
+          - pattern: z.object({...}).$METHOD(...)
+          - pattern-not: z.object({...}).strict(...)
+    paths:
+      include:
+        - 'apps/api/src/modules/**'
+        - 'packages/shared/src/**'
+      exclude:
+        - '**/*.test.ts'
+        - '**/*.spec.ts'
+        # Nested object shapes that are not route schemas don't need strict
+        - '**/dto.ts'
+        - '**/filters.ts'

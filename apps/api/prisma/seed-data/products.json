@@ -1,0 +1,491 @@
+[
+  {
+    "sku": "PE-AG-001",
+    "name": "Royale Masala Agarbatti",
+    "category": "agarbatti/royale-masala",
+    "tags": ["masala", "bestseller"],
+    "isFeatured": true,
+    "description": "A premium blend of natural herbs, resins, and floral extracts crafted into rich masala incense sticks using traditional Indian techniques.\nThe warm, earthy fragrance creates a divine atmosphere perfect for daily puja rituals and meditation sessions.\nEach stick burns evenly for approximately 30 minutes, filling the room with a long-lasting, soothing aroma that lingers well after the burn.\nMade by Invita Company using time-honoured masala methods passed down through generations of master craftsmen.\nIdeal for morning aarti, yoga practice, or simply elevating the ambiance of your sacred space.",
+    "specifications": {
+      "Quantity": "50 sticks",
+      "Commodity": "Agarbatti",
+      "Brand": "Invita Company"
+    },
+    "variants": [
+      {
+        "sku": "PE-AG-001-50",
+        "label": "50 g",
+        "price": "80.00",
+        "compareAtPrice": "95.00",
+        "stock": 120,
+        "weightGrams": 70,
+        "isDefault": true
+      },
+      {
+        "sku": "PE-AG-001-100",
+        "label": "100 g",
+        "price": "150.00",
+        "stock": 80,
+        "weightGrams": 130
+      }
+    ]
+  },
+  {
+    "sku": "PE-AG-002",
+    "name": "Bambooless Sandal Agarbatti",
+    "category": "agarbatti/bambooless",
+    "tags": ["sandal", "bambooless"],
+    "isFeatured": true,
+    "description": "Experience the pure, undiluted essence of sandalwood in these handcrafted bambooless incense sticks, free from synthetic cores.\nWithout a bamboo stick, these agarbattis release a cleaner, more authentic sandalwood fragrance from the very first burn to the last.\nThe calming sandalwood aroma is revered for its grounding and stress-relieving properties in Ayurvedic tradition.\nEach stick burns completely without leaving any residue, making them ideal for enclosed puja rooms and home shrines.\nA perfect, pure offering to deities — the preferred choice of temples across South India.",
+    "specifications": { "Quantity": "40 sticks", "Commodity": "Agarbatti" },
+    "variants": [
+      {
+        "sku": "PE-AG-002-40",
+        "label": "40 sticks",
+        "price": "120.00",
+        "stock": 60,
+        "weightGrams": 60,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-AG-003",
+    "name": "Long Garden Rose Agarbatti",
+    "category": "agarbatti/long-garden",
+    "tags": ["rose", "garden"],
+    "description": "These extra-long 16-inch rose agarbattis fill large prayer halls and meditation spaces with the intoxicating fragrance of fresh garden roses.\nCrafted with real rose extracts and natural binding agents, they create a romantic and spiritually uplifting ambiance that soothes the mind.\nThe extended burn time makes them perfectly suited for prolonged rituals, bhajans, and ceremonial gatherings.\nEach stick releases a consistent, true-to-nature rose fragrance with no harsh chemical afterburn.\nA timeless classic for Lakshmi puja, Navratri celebrations, and other floral deity offerings.",
+    "specifications": { "Quantity": "20 sticks", "Length": "16 inch" },
+    "variants": [
+      {
+        "sku": "PE-AG-003-20",
+        "label": "20 sticks",
+        "price": "199.00",
+        "stock": 40,
+        "weightGrams": 250,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-AG-004",
+    "name": "Citronella Mosquito Repellent Agarbatti",
+    "category": "agarbatti/mosquito-repellent",
+    "tags": ["citronella", "repellent"],
+    "description": "A dual-purpose incense that combines the natural repellent properties of pure citronella oil with a refreshing, uplifting fragrance.\nIdeal for outdoor pujas, garden prayer areas, and evening aarti where mosquitoes are a concern during worship.\nMade with genuine citronella extract and natural herbs, they are safe for use around children when used in well-ventilated spaces.\nThe light, lemony aroma is cleansing and invigorating, adding a cheerful note to morning and evening prayer routines.\nA practical, eco-friendly addition to every home, balcony altar, and outdoor temple.",
+    "specifications": { "Quantity": "30 sticks" },
+    "variants": [
+      {
+        "sku": "PE-AG-004-30",
+        "label": "30 sticks",
+        "price": "95.00",
+        "stock": 200,
+        "weightGrams": 90,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-AG-005",
+    "name": "Flora Jasmine Agarbatti",
+    "category": "agarbatti/flora",
+    "tags": ["jasmine", "flora"],
+    "description": "Capture the sweet, heady fragrance of jasmine blooms in every stick of this beloved agarbatti, a staple in Indian devotional practice.\nJasmine has been used in Hindu and Buddhist traditions for centuries as an offering to deities and a purifier of the mind and spirit.\nEach 100 g pack ensures a long-lasting, consistent fragrance that faithfully replicates fresh jasmine, even out of season.\nThe smooth-burning formula produces minimal smoke while maximising fragrance throw throughout the room.\nA perennial favourite for Ganesh puja, Navratri, and daily worship at home temples.",
+    "specifications": { "Quantity": "100 g" },
+    "variants": [
+      {
+        "sku": "PE-AG-005-100",
+        "label": "100 g",
+        "price": "110.00",
+        "stock": 75,
+        "weightGrams": 120,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-AG-006",
+    "name": "Premium Oudh Agarbatti Pouch",
+    "category": "agarbatti/premium",
+    "tags": ["oudh", "premium"],
+    "description": "Experience the rare and luxurious fragrance of oud wood in this premium agarbatti collection, sourced from select agarwood resins.\nThe deep, complex, and mesmerising aroma of oud carries centuries of tradition from the Middle East and Southeast Asia.\nThe convenient resealable pouch packaging keeps the sticks fresh, preserving the precious oud fragrance between uses.\nEach stick burns for approximately 45 minutes, making them perfect for extended meditations and special festive ceremonies.\nA symbol of luxury and spiritual elevation — the finest incense sticks in our entire collection.",
+    "specifications": { "Quantity": "25 sticks" },
+    "variants": [
+      {
+        "sku": "PE-AG-006-25",
+        "label": "25 sticks",
+        "price": "249.00",
+        "compareAtPrice": "299.00",
+        "stock": 30,
+        "weightGrams": 60,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-DH-001",
+    "name": "Chandan Wet Dhoop",
+    "category": "dhoop/wet-dhoop",
+    "tags": ["chandan", "wet dhoop"],
+    "isFeatured": true,
+    "description": "Traditional wet sandalwood dhoop sticks made using an age-old recipe of pure chandan paste, Ayurvedic herbs, and natural binding agents.\nUnlike dry incense, wet dhoop produces a thicker, more fragrant smoke that quickly fills the entire space with a rich, earthy sandalwood aroma.\nSpecially crafted for use in hawan, aarti, and deep ceremonial rituals that demand a powerful, authentic fragrance.\nThe 20-stick pack provides ample supply for daily puja needs and festive occasions throughout the month.\nBeloved across temples and traditional households for its authentic, unadulterated chandan fragrance.",
+    "specifications": { "Quantity": "20 sticks" },
+    "variants": [
+      {
+        "sku": "PE-DH-001-20",
+        "label": "20 sticks",
+        "price": "70.00",
+        "stock": 150,
+        "weightGrams": 90,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-DH-002",
+    "name": "Guggal Dhoop Sticks",
+    "category": "dhoop/dhoop-sticks",
+    "tags": ["guggal"],
+    "description": "Pure guggal (Indian bdellium) resin dhoop sticks revered for their powerful purifying and healing properties across Indian traditions.\nUsed in Ayurvedic medicine and spiritual practices for thousands of years, guggal smoke is believed to cleanse negative energies from spaces.\nThese sticks produce a warm, balsamic, slightly sweet fragrance that creates an atmosphere of profound calm and devotion.\nEach stick burns slowly and steadily, releasing the precious resin's full aromatic spectrum over an extended burn period.\nEssential for griha pravesh, housewarming puja, and regular spiritual cleansing of your home or workspace.",
+    "specifications": { "Quantity": "30 sticks" },
+    "variants": [
+      {
+        "sku": "PE-DH-002-30",
+        "label": "30 sticks",
+        "price": "85.00",
+        "stock": 90,
+        "weightGrams": 110,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-DH-003",
+    "name": "Lavender Perfume Dhoop",
+    "category": "dhoop/perfume-dhoop",
+    "tags": ["lavender"],
+    "description": "Artisanal lavender dhoop sticks crafted with premium lavender essential oil and natural resins for a calming, aromatherapeutic experience.\nThe gentle floral fragrance promotes relaxation, stress relief, and mental clarity, making them ideal for evening meditation and bedtime rituals.\nEach stick provides a clean, smoke-light burn that is gentle on sensitive airways and suitable for smaller, enclosed rooms.\nThese sticks beautifully bridge traditional Indian puja culture with modern wellness and mindfulness practices.\nA must-have for anyone seeking tranquillity and inner peace in their home sacred space.",
+    "specifications": { "Quantity": "24 sticks" },
+    "variants": [
+      {
+        "sku": "PE-DH-003-24",
+        "label": "24 sticks",
+        "price": "99.00",
+        "stock": 65,
+        "weightGrams": 100,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-DH-004",
+    "name": "Masala Dhoop Cones",
+    "category": "dhoop/masala-cones",
+    "tags": ["masala", "cones"],
+    "description": "Classic masala dhoop cones made from a traditional blend of aromatic herbs, resins, and natural binders in the Indian handcraft tradition.\nThe cone shape concentrates the fragrance, producing a rich, intense aromatic cloud that quickly fills any room with devotional warmth.\nAvailable in 12-cone and 36-cone packs to suit both everyday use and large-scale ceremonies or festivals.\nThe masala blend includes a proprietary selection of natural ingredients that burn cleanly and evenly without excessive smoke.\nAn essential part of any puja thali and a timeless daily offering in traditional Indian households.",
+    "specifications": { "Quantity": "12 cones" },
+    "variants": [
+      {
+        "sku": "PE-DH-004-12",
+        "label": "12 cones",
+        "price": "60.00",
+        "stock": 110,
+        "weightGrams": 80,
+        "isDefault": true
+      },
+      {
+        "sku": "PE-DH-004-36",
+        "label": "36 cones",
+        "price": "160.00",
+        "stock": 40,
+        "weightGrams": 220
+      }
+    ]
+  },
+  {
+    "sku": "PE-DH-005",
+    "name": "Loban Dhoop Stick Jar",
+    "category": "dhoop/dhoop-stick-jar",
+    "tags": ["loban", "jar"],
+    "description": "A generous jar of loban (benzoin) dhoop sticks revered across South Asian and Arabian traditions for their deep, balsamic, purifying fragrance.\nLoban smoke is traditionally used to ward off negative energies, cleanse sacred spaces, and attract positive vibrations into the home.\nThe convenient airtight jar packaging preserves freshness and allows for easy, mess-free dispensing between uses.\nEach stick burns consistently, releasing loban's rich vanilla-and-spice aroma throughout the entire burning duration.\nA classic staple for regular use in temples, home shrines, and all festive ritual spaces.",
+    "specifications": { "Quantity": "60 sticks" },
+    "variants": [
+      {
+        "sku": "PE-DH-005-60",
+        "label": "60 sticks",
+        "price": "180.00",
+        "stock": 35,
+        "weightGrams": 300,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-PS-001",
+    "name": "Pure Camphor Tablets",
+    "category": "puja-samagri/camphor",
+    "tags": ["camphor", "kapur"],
+    "isFeatured": true,
+    "hsnCode": "2914",
+    "gstRate": 18,
+    "description": "Pharmaceutical-grade 99% pure camphor tablets, the cornerstone of Hindu puja rituals and Ayurvedic purification practices.\nThese snow-white tablets burn with a bright, clean flame and produce a characteristic sharp, purifying aroma that instantly elevates any worship space.\nCamphor is believed to purify the air, ward off negative energies, and establish a direct connection between the worshipper and the divine.\nAvailable in 100 g and 250 g packs to suit the needs of regular households and frequent ceremonial use.\nThe highest purity grade ensures maximum fragrance throw and complete combustion leaving no residue behind.",
+    "specifications": { "Quantity": "100 g", "Purity": "99%" },
+    "variants": [
+      {
+        "sku": "PE-PS-001-100",
+        "label": "100 g",
+        "price": "140.00",
+        "stock": 100,
+        "weightGrams": 110,
+        "isDefault": true
+      },
+      {
+        "sku": "PE-PS-001-250",
+        "label": "250 g",
+        "price": "320.00",
+        "stock": 45,
+        "weightGrams": 270
+      }
+    ]
+  },
+  {
+    "sku": "PE-PS-002",
+    "name": "Brass Kapur Dani",
+    "category": "puja-samagri/kapur-dani",
+    "tags": ["brass", "kapur dani"],
+    "hsnCode": "6913",
+    "gstRate": 12,
+    "description": "A beautifully crafted solid brass camphor holder (kapur dani) featuring intricate traditional Indian motifs and a generous 8 cm height.\nThe sturdy brass construction and perforated lid allow camphor smoke to disperse freely, ensuring an even fragrance throughout aarti.\nThe ergonomic design makes it comfortable to hold and wave during aarti, while the deep base safely contains the burning tablet.\nOver time, the brass develops a rich golden patina that deepens its devotional character and beauty.\nCompatible with standard camphor tablets and cube forms — an heirloom-quality vessel for every home puja room.",
+    "specifications": { "Material": "Brass", "Height": "8 cm" },
+    "variants": [
+      {
+        "sku": "PE-PS-002-STD",
+        "label": "Standard",
+        "price": "349.00",
+        "stock": 25,
+        "weightGrams": 220,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-PS-003",
+    "name": "Sambrani Hawan Cups",
+    "category": "puja-samagri/sambrani-hawan-cups",
+    "tags": ["sambrani", "hawan"],
+    "hsnCode": "1301",
+    "gstRate": 5,
+    "description": "Traditional sambrani (benzoin resin) cups designed for easy, convenient use during hawan, purification, and home blessing rituals.\nEach cup is pre-filled with high-quality sambrani resin that burns steadily when lit, releasing thick, fragrant purifying smoke.\nSambrani is prized in traditional Indian medicine for its antimicrobial properties and its role in ceremonies marking births, marriages, and festivals.\nThe simple cup design eliminates the need for charcoal preparation — just light the cup directly and let the sacred smoke do the rest.\nThe 12-cup pack provides multiple sessions of ceremonial or everyday use at exceptional value.",
+    "specifications": { "Quantity": "12 cups" },
+    "variants": [
+      {
+        "sku": "PE-PS-003-12",
+        "label": "12 cups",
+        "price": "120.00",
+        "stock": 130,
+        "weightGrams": 150,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-PS-004",
+    "name": "Cotton Puja Wicks",
+    "category": "puja-samagri/puja-wick",
+    "tags": ["wick", "cotton"],
+    "hsnCode": "5601",
+    "gstRate": 5,
+    "description": "Premium hand-rolled cotton wicks made from pure, unbleached cotton for a clean, bright, and steady diya flame.\nEach pack contains 200 wicks of uniform size, perfectly suited for standard brass, silver, and clay diyas used in daily puja.\nThe fine cotton weave ensures a smoke-free, stable flame that burns without excessive soot or dripping.\nThese wicks are an essential daily consumable for every practising Hindu household performing morning and evening aarti.\nTheir pure, unprocessed composition makes them ideal for both sesame oil lamps and pure ghee diyas alike.",
+    "specifications": { "Quantity": "200 wicks" },
+    "variants": [
+      {
+        "sku": "PE-PS-004-200",
+        "label": "200 wicks",
+        "price": "45.00",
+        "stock": 300,
+        "weightGrams": 40,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-PS-005",
+    "name": "Hawan Samagri Mix",
+    "category": "puja-samagri/hawan-samagri",
+    "tags": ["hawan", "samagri"],
+    "description": "A complete, traditional hawan samagri blend prepared with over 20 carefully selected herbs, resins, seeds, and aromatic substances.\nThis sacred mixture is prescribed in Vedic scriptures for its purifying, medicinal, and spiritually elevating properties when offered into the sacred fire.\nEach 250 g pack provides sufficient material for a full hawan ceremony for four to five participants, including multiple ahutis.\nThe blend includes ashwagandha, shatavari, guggal, loban, and other potent Ayurvedic herbs sourced from trusted suppliers.\nEssential for griha shanti puja, navgraha hawan, Diwali hawan, and all other Vedic fire ceremonies.",
+    "specifications": { "Quantity": "250 g" },
+    "variants": [
+      {
+        "sku": "PE-PS-005-250",
+        "label": "250 g",
+        "price": "130.00",
+        "stock": 70,
+        "weightGrams": 260,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-PS-006",
+    "name": "Gangajal 500 ml",
+    "category": "puja-samagri/gangajal",
+    "tags": ["gangajal"],
+    "hsnCode": "2201",
+    "gstRate": 18,
+    "description": "Pure, holy water sourced directly from the sacred Ganges River and carefully bottled in a clean, sealed 500 ml container.\nGangajal holds immense spiritual significance in Hindu tradition and is used in virtually every puja, ritual, and life-cycle ceremony.\nThe water is collected, filtered, and tested at source to ensure its purity, sanctity, and compliance with food-grade standards.\nA few drops of gangajal are believed to purify any object, space, or individual it touches, creating a sacred, auspicious environment.\nKeep it in your puja room as an essential sacred element for daily worship, abhishek, and all special ceremonies throughout the year.",
+    "specifications": { "Volume": "500 ml" },
+    "variants": [
+      {
+        "sku": "PE-PS-006-500",
+        "label": "500 ml",
+        "price": "90.00",
+        "stock": 55,
+        "weightGrams": 540,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-AC-001",
+    "name": "Sandalwood Reed Diffuser",
+    "category": "air-care/reed-diffusers",
+    "tags": ["reed", "sandalwood"],
+    "hsnCode": "3301",
+    "gstRate": 18,
+    "description": "A sophisticated home fragrance diffuser featuring a premium sandalwood essential oil blend with natural fibre reeds for continuous, effortless scent release.\nThe 100 ml bottle ensures up to 60 days of consistent fragrance, subtly and elegantly transforming your living space day and night.\nSix premium fibre reeds draw the oil upward by capillary action, releasing gentle sandalwood notes in a steady, controlled manner.\nUnlike incense, this diffuser requires no flame and is perfectly safe for use in offices, nurseries, and bedrooms.\nA luxurious, minimal addition to living rooms, meditation spaces, and reception areas that speaks of refinement.",
+    "specifications": { "Volume": "100 ml", "Reeds": "6" },
+    "variants": [
+      {
+        "sku": "PE-AC-001-100",
+        "label": "100 ml",
+        "price": "499.00",
+        "compareAtPrice": "599.00",
+        "stock": 20,
+        "weightGrams": 350,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-AC-002",
+    "name": "Lemongrass Aroma Oil",
+    "category": "air-care/aroma-oils-ultrasonic",
+    "tags": ["lemongrass", "aroma oil"],
+    "hsnCode": "3301",
+    "gstRate": 18,
+    "description": "Energising and purifying lemongrass essential oil blend specially formulated for use in ultrasonic diffusers and traditional electric oil burners.\nThe crisp, citrusy fragrance of lemongrass is scientifically recognised for its mood-lifting, antibacterial, and natural insect-repelling properties.\nJust a few drops in your diffuser fills an entire room with a fresh, invigorating aroma that boosts focus, clarity, and energy levels.\nThe concentrated 15 ml bottle provides approximately 150 to 200 hours of use in a standard ultrasonic diffuser.\nSafe for use around children and pets in well-ventilated spaces when used as directed — ideal for homes and offices alike.",
+    "specifications": { "Volume": "15 ml" },
+    "variants": [
+      {
+        "sku": "PE-AC-002-15",
+        "label": "15 ml",
+        "price": "199.00",
+        "stock": 60,
+        "weightGrams": 50,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-AC-003",
+    "name": "Mogra Car Diffuser",
+    "category": "air-care/car-diffusers",
+    "tags": ["mogra", "car"],
+    "hsnCode": "3307",
+    "gstRate": 18,
+    "description": "A compact and elegant mogra (jasmine) car fragrance diffuser designed to keep your vehicle smelling fresh and inviting throughout your commute.\nThe 8 ml reservoir attaches easily to air vents or hangs from the rearview mirror for consistent, even fragrance dispersal.\nMogra's sweet, romantic scent creates a calming driving environment that significantly reduces commuter stress and road fatigue.\nThe adjustable fragrance intensity allows personalisation for different preferences and vehicle cabin sizes.\nLong-lasting and refillable, this stylish diffuser is a sophisticated alternative to conventional car air fresheners.",
+    "specifications": { "Volume": "8 ml" },
+    "variants": [
+      {
+        "sku": "PE-AC-003-8",
+        "label": "8 ml",
+        "price": "249.00",
+        "stock": 40,
+        "weightGrams": 60,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-HF-001",
+    "name": "Vanilla Scented Candle",
+    "category": "home-fragrance/scented-candles",
+    "tags": ["vanilla", "candle"],
+    "hsnCode": "3406",
+    "gstRate": 12,
+    "description": "A hand-poured artisan candle crafted from a premium soy-paraffin blend wax, infused with pure Madagascar vanilla essential oil.\nThe exceptional 30-hour burn time ensures extended enjoyment, making this 200 g candle outstanding value for its price point.\nThe clean-burning soy blend produces minimal soot while maximising fragrance throw, wrapping the room in a warm, enveloping vanilla cloud.\nHand-poured into an elegant frosted glass container, it makes a thoughtful and beautiful gift for any occasion.\nIdeal for creating a cosy, romantic atmosphere during evenings, bath rituals, meditation sessions, or quiet dinner parties.",
+    "specifications": { "Burn time": "30 hours", "Wax": "Soy blend" },
+    "variants": [
+      {
+        "sku": "PE-HF-001-200",
+        "label": "200 g",
+        "price": "399.00",
+        "stock": 30,
+        "weightGrams": 320,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-HF-002",
+    "name": "Oudh Bakhoor Bricks",
+    "category": "home-fragrance/bakhoor",
+    "tags": ["oudh", "bakhoor"],
+    "hsnCode": "3307",
+    "gstRate": 5,
+    "description": "Authentic Arabian bakhoor bricks made with premium oud oil and natural resins using traditional Middle Eastern fragrance craftsmanship.\nThese eight bricks are designed to be placed on charcoal or an electric bakhoor burner, releasing thick, opulent smoke with a rich, woody-floral oud aroma.\nBakhoor has been used for centuries across the Arabian Peninsula and South Asia to fragrance homes, clothing, hair, and ceremonial spaces.\nA single brick session perfumes an entire room for hours, creating a luxurious, immersive olfactory experience unlike any other.\nA premium product that bridges Indian and Arabian fragrance traditions — one of the most sought-after home fragrances in the world.",
+    "specifications": { "Quantity": "8 bricks" },
+    "variants": [
+      {
+        "sku": "PE-HF-002-8",
+        "label": "8 bricks",
+        "price": "299.00",
+        "stock": 25,
+        "weightGrams": 180,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-BF-001",
+    "name": "Rose Attar",
+    "category": "body-fragrance/attar",
+    "tags": ["rose", "attar"],
+    "hsnCode": "3303",
+    "gstRate": 18,
+    "description": "A rare, alcohol-free rose attar crafted using the ancient Indian deg-bhapka distillation process, where fresh rose petals are steam-distilled into pure sandalwood oil.\nThis 10 ml bottle contains a deeply concentrated, exquisitely complex rose fragrance that blossoms on the skin over hours of wear.\nCompletely alcohol-free, it is suitable for use by children, during religious rituals, and by those with alcohol sensitivities or skin conditions.\nA single drop on the wrist or neck lasts the entire day with a graceful, natural progression from bright top notes to a warm, earthy dry-down.\nOne of the finest natural perfumes in the world, now accessible for everyday wear and special devotional occasions alike.",
+    "specifications": { "Volume": "10 ml", "Alcohol": "Free" },
+    "variants": [
+      {
+        "sku": "PE-BF-001-10",
+        "label": "10 ml",
+        "price": "450.00",
+        "stock": 35,
+        "weightGrams": 45,
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "sku": "PE-MO-001",
+    "name": "Lotus Backflow Incense Burner",
+    "category": "more/backflow-incense-burners",
+    "tags": ["backflow", "burner", "lotus"],
+    "hsnCode": "6913",
+    "gstRate": 12,
+    "description": "An exquisite hand-painted ceramic lotus-design backflow incense burner that creates the mesmerising visual effect of smoke cascading downward like a waterfall.\nThe intricate glazed ceramic construction ensures durability and serves as a striking artistic focal point for any meditation corner or puja space.\nComes complete with 10 backflow incense cones to allow you to experience the magic immediately after unboxing.\nThe lotus symbolism aligns perfectly with themes of spiritual awakening, purity, and the transcendence of material attachment.\nA stunning gift for yoga practitioners, meditators, and anyone who appreciates the meditative art and visual poetry of incense.",
+    "specifications": { "Material": "Ceramic", "Includes": "10 backflow cones" },
+    "variants": [
+      {
+        "sku": "PE-MO-001-STD",
+        "label": "Standard",
+        "price": "699.00",
+        "compareAtPrice": "899.00",
+        "stock": 15,
+        "weightGrams": 600,
+        "isDefault": true
+      }
+    ]
+  }
+]

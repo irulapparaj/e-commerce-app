@@ -1,0 +1,142 @@
+/*
+ * DESIGN.md §16 — "Minimalist & Clean". With skins.css, the only file allowed to hold colour literals.
+ * Every token has a light and a dark value; `[data-theme]` works on the root (SSR cookie hint,
+ * ThemeToggle) and on any wrapper (the /dev/components gallery renders both themes side by side).
+ * `[data-skin]` (skins.css) re-maps the same names for the alternative looks.
+ */
+@layer base {
+  :root,
+  [data-theme='light'] {
+    color-scheme: light;
+
+    --bg: #fbfaf7;
+    --surface: #ffffff;
+    --hairline: #e8e3da;
+
+    --text: #1c1a17;
+    --muted: #6e6862;
+    --subtle: #787068;
+
+    /* One accent: primary CTA, active states and the free-shipping bar only. */
+    /* #a55318 (hsl 23, 74%, 37%) gives 4.98:1 with white text (WCAG AA pass for buttons). */
+    /* As text on white it also gives 4.98:1, so text-accent on light surfaces passes too.  */
+    --accent: #a55318;
+    /* White on this darker amber: 4.98:1. Dark ink only gave ~3.6:1 (failed AA). */
+    --accent-contrast: #ffffff;
+
+    /* Hero panel/scrim and the type on it; ink here so the overlay hero reads as before. */
+    --hero-bg: #1c1a17;
+    --hero-text: #fbfaf7;
+    --hero-muted: #cfc9bf;
+
+    --success: #2e7b5a;
+    /* H-40: #956b00 gives 4.80:1 on white (WCAG AA pass); was #b8912a at ~2.95:1 */
+    --warning: #956b00;
+    /* --warning-text: darkened for use as text on warning-tinted surfaces (~6:1 on white). */
+    --warning-text: #7a4f00;
+    --critical: #b3261e;
+
+    --shadow-drawer: -12px 0 32px rgba(28, 26, 23, 0.12);
+    --shadow-modal: 0 16px 48px rgba(28, 26, 23, 0.16);
+    --scrim: rgba(28, 26, 23, 0.4);
+  }
+
+  :root {
+    /* next/font sets --font-fraunces / --font-manrope on <html>; the admin has neither and falls back. */
+    --font-display: var(--font-fraunces, 'Fraunces'), Georgia, 'Times New Roman', serif;
+    --font-body: var(--font-manrope, 'Manrope'), system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --display-weight: 500;
+    --display-style: normal;
+    --display-tracking: -0.01em;
+
+    /* 1.25 modular scale on a 16px body. */
+    --scale: 1.25;
+    --text-caption: 0.75rem;
+    --text-small: 0.8rem;
+    --text-base: 1rem;
+    --text-h3: 1.25rem;
+    --text-h2: clamp(1.5rem, 1.1rem + 1.4vw, 1.953rem);
+    --text-h1: clamp(2rem, 1.2rem + 2.5vw, 3rem);
+    --text-display: clamp(2.441rem, 1.4rem + 3.6vw, 3.815rem);
+
+    /* 8-pt grid. */
+    --space-1: 0.5rem;
+    --space-2: 1rem;
+    --space-3: 1.5rem;
+    --space-4: 2rem;
+    --space-5: 2.5rem;
+    --space-6: 3rem;
+    --space-8: 4rem;
+    --space-section: clamp(3rem, 2rem + 4vw, 6rem);
+    --gutter: clamp(1rem, 0.5rem + 2vw, 1.5rem);
+    --content-max: 1200px;
+    --grid-columns: 12;
+    --header-height: 4rem;
+    --touch-target: 2.75rem;
+
+    --radius-control: 6px;
+    --radius-image: 2px;
+    --aspect-category: 3 / 4;
+
+    --duration-fast: 150ms;
+    --duration-normal: 250ms;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+    --z-header: 40;
+    --z-overlay: 50;
+    --z-toast: 60;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+      color-scheme: dark;
+      --bg: #141210;
+      --surface: #1c1916;
+      --hairline: #2e2a25;
+      --text: #f1ece4;
+      --muted: #b3aca2;
+      --subtle: #8a837a;
+      --accent: #d9772b;
+      --accent-contrast: #141210;
+      --hero-bg: #0f0d0b;
+      --hero-text: #f1ece4;
+      --hero-muted: #b3aca2;
+      --success: #5fb08a;
+      --warning: #d4b04a;
+      --warning-text: #f0c85a;
+      --critical: #e0564c;
+      --shadow-drawer: -12px 0 32px rgba(0, 0, 0, 0.5);
+      --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.6);
+      --scrim: rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark;
+    --bg: #141210;
+    --surface: #1c1916;
+    --hairline: #2e2a25;
+    --text: #f1ece4;
+    --muted: #b3aca2;
+    --subtle: #8a837a;
+    --accent: #d9772b;
+    --accent-contrast: #141210;
+    --hero-bg: #0f0d0b;
+    --hero-text: #f1ece4;
+    --hero-muted: #b3aca2;
+    --success: #5fb08a;
+    --warning: #d4b04a;
+    --warning-text: #f0c85a;
+    --critical: #e0564c;
+    --shadow-drawer: -12px 0 32px rgba(0, 0, 0, 0.5);
+    --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.6);
+    --scrim: rgba(0, 0, 0, 0.6);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --duration-fast: 0ms;
+      --duration-normal: 0ms;
+    }
+  }
+}

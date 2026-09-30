@@ -1,0 +1,19 @@
+# Path traversal corpus
+# Feed to filename / key / path fields; expect 400/404, never file content or 500
+../etc/passwd
+../../etc/shadow
+../../../etc/hosts
+..%2Fetc%2Fpasswd
+%2e%2e%2fetc%2fpasswd
+%252e%252e%252fetc%252fpasswd
+....//....//etc/passwd
+..\/etc\/passwd
+/etc/passwd
+/etc/shadow
+C:\Windows\system32\drivers\etc\hosts
+..\..\..\Windows\win.ini
+%00/../etc/passwd
+images/../../../etc/passwd
+.%2e/.%2e/etc/passwd
+%c0%ae%c0%ae/etc/passwd
+%c1%1c%c1%1c/etc/passwd

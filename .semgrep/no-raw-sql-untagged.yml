@@ -1,0 +1,29 @@
+rules:
+  - id: no-queryrawunsafe
+    message: >
+      $queryRawUnsafe executes raw SQL without parameterisation, enabling SQL injection.
+      Use $queryRaw with tagged template literals instead (DESIGN §11.3 "Prisma parameterised").
+    severity: ERROR
+    languages: [typescript]
+    patterns:
+      - pattern: $PRISMA.$queryRawUnsafe(...)
+      - pattern: $PRISMA.$executeRawUnsafe(...)
+    paths:
+      exclude:
+        - '**/*.test.ts'
+        - '**/*.spec.ts'
+
+  - id: no-string-built-sql
+    message: >
+      String-concatenated SQL in $queryRaw or $executeRaw bypasses parameterisation.
+      Always use tagged template literals: prisma.$queryRaw`SELECT ... WHERE id = ${id}`.
+    severity: ERROR
+    languages: [typescript]
+    patterns:
+      - pattern: $PRISMA.$queryRaw($X + $Y)
+      - pattern: $PRISMA.$executeRaw($X + $Y)
+      - pattern: $PRISMA.$queryRaw(`...${...}...` + $Y)
+    paths:
+      exclude:
+        - '**/*.test.ts'
+        - '**/*.spec.ts'

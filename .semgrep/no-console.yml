@@ -1,0 +1,21 @@
+rules:
+  - id: no-console-log
+    message: >
+      console.log is not allowed in production code. Use the structured Pino logger
+      (app.log, request.log) or the server-level logger injected via dependency injection.
+      console.error is acceptable only in top-level error handlers.
+    severity: WARNING
+    languages: [typescript, javascript]
+    patterns:
+      - pattern: console.log(...)
+      - pattern: console.debug(...)
+      - pattern: console.info(...)
+      - pattern: console.warn(...)
+    paths:
+      exclude:
+        - '**/*.test.ts'
+        - '**/*.test.tsx'
+        - '**/*.spec.ts'
+        - '**/scripts/**'
+        - '**/seed*.ts'
+        - 'apps/api/src/server.ts'

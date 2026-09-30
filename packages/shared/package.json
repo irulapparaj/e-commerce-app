@@ -1,0 +1,38 @@
+{
+  "name": "@pe/shared",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./env": "./src/env.ts",
+    "./errors": "./src/errors.ts",
+    "./money": "./src/money/index.ts",
+    "./tax": "./src/tax/split-gst.ts",
+    "./schemas": "./src/schemas/common.ts",
+    "./constants": "./src/constants/index.ts",
+    "./brand": "./src/brand.ts",
+    "./redirect": "./src/redirect.ts",
+    "./envelope": "./src/envelope.ts",
+    "./richtext": "./src/richtext.ts",
+    "./schemas/settings": "./src/schemas/settings.ts",
+    "./schemas/catalogue": "./src/schemas/catalogue.ts",
+    "./schemas/import-row": "./src/schemas/import-row.ts",
+    "./masking": "./src/masking.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --coverage"
+  },
+  "dependencies": {
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@pe/config": "workspace:*",
+    "@types/node": "22.20.4",
+    "@vitest/coverage-v8": "3.2.7",
+    "typescript": "5.9.3",
+    "vitest": "3.2.7"
+  }
+}

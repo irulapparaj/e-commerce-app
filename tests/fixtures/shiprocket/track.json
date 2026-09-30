@@ -1,0 +1,23 @@
+{
+  "tracking_data": {
+    "shipment_track": [
+      {
+        "awb_code": "1234567890123",
+        "current_status": "In Transit"
+      }
+    ],
+    "shipment_track_activities": [
+      {
+        "date": "2026-09-26 10:00:00",
+        "activity": "AWB Assigned",
+        "location": "Chennai"
+      },
+      {
+        "date": "2026-09-26 18:00:00",
+        "activity": "In Transit",
+        "location": "Bangalore"
+      }
+    ],
+    "track_url": "https://shiprocket.co/tracking/1234567890123"
+  }
+}

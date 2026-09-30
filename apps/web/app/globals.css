@@ -1,0 +1,6 @@
+@import 'tailwindcss';
+@import '../styles/tokens.css';
+@import '../styles/skins.css';
+@import '../styles/typography.css';
+@import '../styles/global.css';
+@config '../tailwind.config.ts';

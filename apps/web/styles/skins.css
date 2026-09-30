@@ -1,0 +1,247 @@
+/*
+ * Skins — the second attribute axis next to `[data-theme]`. A skin only re-maps tokens that
+ * tokens.css already declares, so every component keeps reading the same names. Light values sit on
+ * `[data-skin]`; dark values repeat the tokens.css guard pattern so the OS preference and the toggle
+ * win the same way. Selectors match the root and any wrapper (gallery panels, menu previews).
+ * With tokens.css, this is the only file allowed to hold colour literals.
+ */
+@layer base {
+  /* Classic is the tokens.css default; only non-colour tokens are restated so a nested preview
+     inside another skin falls back to the base type and shapes. */
+  [data-skin='classic'] {
+    --font-display: var(--font-fraunces, 'Fraunces'), Georgia, 'Times New Roman', serif;
+    --font-body: var(--font-manrope, 'Manrope'), system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --display-weight: 500;
+    --display-style: normal;
+    --display-tracking: -0.01em;
+    --radius-control: 6px;
+    --radius-image: 2px;
+    --aspect-category: 3 / 4;
+  }
+
+  /* ── Mandir Gold: temple maroon, burnished gold, Prata ─────────────────────────────── */
+  [data-skin='mandir-gold'] {
+    --font-display: var(--font-prata, 'Prata'), Georgia, serif;
+    --font-body: var(--font-nunito, 'Nunito'), system-ui, sans-serif;
+    --display-weight: 400;
+    --display-style: normal;
+    --display-tracking: 0;
+    --radius-control: 3px;
+    --radius-image: 4px;
+    --aspect-category: 3 / 4;
+
+    --bg: #fbf3e3;
+    --surface: #fff9ee;
+    --hairline: #e6d3a0;
+    --text: #2a0d0d;
+    --muted: #6f4a2a;
+    --subtle: #7d5528;
+    --accent: #d4a940;
+    --accent-contrast: #2a0d0d;
+    --hero-bg: #3d1a1a;
+    --hero-text: #f5e8bc;
+    --hero-muted: #c9ad78;
+  }
+  @media (prefers-color-scheme: dark) {
+    [data-skin='mandir-gold']:not([data-theme='light']) {
+      --bg: #220a0a;
+      --surface: #341313;
+      --hairline: #5a2b2b;
+      --text: #f5e8bc;
+      --muted: #cdb684;
+      --subtle: #a89060;
+      --accent: #d4a940;
+      --accent-contrast: #2a0d0d;
+      --success: #7fc29a;
+      --warning: #e0c060;
+      --critical: #f28b7d;
+      --hero-bg: #3d1a1a;
+      --hero-text: #f5e8bc;
+      --hero-muted: #c9ad78;
+    }
+  }
+  [data-skin='mandir-gold'][data-theme='dark'] {
+    --bg: #220a0a;
+    --surface: #341313;
+    --hairline: #5a2b2b;
+    --text: #f5e8bc;
+    --muted: #cdb684;
+    --subtle: #a89060;
+    --accent: #d4a940;
+    --accent-contrast: #2a0d0d;
+    --success: #7fc29a;
+    --warning: #e0c060;
+    --critical: #f28b7d;
+    --hero-bg: #3d1a1a;
+    --hero-text: #f5e8bc;
+    --hero-muted: #c9ad78;
+  }
+
+  /* ── Pushpa Purity: ivory, tulsi green, lotus pink, italic Cormorant ───────────────── */
+  [data-skin='pushpa-purity'] {
+    --font-display: var(--font-cormorant, 'Cormorant Garamond'), Georgia, serif;
+    --font-body: var(--font-source-sans, 'Source Sans 3'), system-ui, sans-serif;
+    --display-weight: 500;
+    --display-style: italic;
+    --display-tracking: 0;
+    --radius-control: 999px;
+    --radius-image: 14px;
+    --aspect-category: 1 / 1;
+
+    --bg: #fefcf8;
+    --surface: #ffffff;
+    --hairline: #e6ded4;
+    --text: #1e2d28;
+    --muted: #5f6f66;
+    --subtle: #6f5e70;
+    --accent: #2d4a3e;
+    --accent-contrast: #f3f0ea;
+    --hero-bg: #1e2d28;
+    --hero-text: #ece8e0;
+    --hero-muted: #b4c0b5;
+  }
+  @media (prefers-color-scheme: dark) {
+    [data-skin='pushpa-purity']:not([data-theme='light']) {
+      --bg: #121a16;
+      --surface: #1a2620;
+      --hairline: #2d3b34;
+      --text: #ece8e0;
+      --muted: #a9b5aa;
+      --subtle: #9a8ea0;
+      --accent: #9cc4ae;
+      --accent-contrast: #121a16;
+      --hero-bg: #1e2d28;
+      --hero-text: #ece8e0;
+      --hero-muted: #a9b5aa;
+    }
+  }
+  [data-skin='pushpa-purity'][data-theme='dark'] {
+    --bg: #121a16;
+    --surface: #1a2620;
+    --hairline: #2d3b34;
+    --text: #ece8e0;
+    --muted: #a9b5aa;
+    --subtle: #9a8ea0;
+    --accent: #9cc4ae;
+    --accent-contrast: #121a16;
+    --hero-bg: #1e2d28;
+    --hero-text: #ece8e0;
+    --hero-muted: #a9b5aa;
+  }
+
+  /* ── Utsav Rang: marigold and saffron, tulsi-green CTAs, Rozha One ─────────────────── */
+  [data-skin='utsav-rang'] {
+    --font-display: var(--font-rozha, 'Rozha One'), Georgia, serif;
+    --font-body: var(--font-poppins, 'Poppins'), system-ui, sans-serif;
+    --display-weight: 400;
+    --display-style: normal;
+    --display-tracking: 0;
+    --radius-control: 4px;
+    --radius-image: 6px;
+    --aspect-category: 1 / 1;
+
+    --bg: #fff6e0;
+    --surface: #ffffff;
+    --hairline: #f0d78e;
+    --text: #1b0a00;
+    --muted: #6a4a24;
+    --subtle: #7d5528;
+    --accent: #2d6a4f;
+    --accent-contrast: #ffffff;
+    --hero-bg: #7a3300;
+    --hero-text: #fff1d6;
+    --hero-muted: #f2c98c;
+  }
+  @media (prefers-color-scheme: dark) {
+    [data-skin='utsav-rang']:not([data-theme='light']) {
+      --bg: #1b0a00;
+      --surface: #2a1408;
+      --hairline: #4d2c12;
+      --text: #ffe8c0;
+      --muted: #e2c48c;
+      --subtle: #c2a066;
+      --accent: #f4a903;
+      --accent-contrast: #1b0a00;
+      --success: #7fc29a;
+      --warning: #e0c060;
+      --critical: #f28b7d;
+      --hero-bg: #7a3300;
+      --hero-text: #fff1d6;
+      --hero-muted: #f2c98c;
+    }
+  }
+  [data-skin='utsav-rang'][data-theme='dark'] {
+    --bg: #1b0a00;
+    --surface: #2a1408;
+    --hairline: #4d2c12;
+    --text: #ffe8c0;
+    --muted: #e2c48c;
+    --subtle: #c2a066;
+    --accent: #f4a903;
+    --accent-contrast: #1b0a00;
+    --success: #7fc29a;
+    --warning: #e0c060;
+    --critical: #f28b7d;
+    --hero-bg: #7a3300;
+    --hero-text: #fff1d6;
+    --hero-muted: #f2c98c;
+  }
+
+  /* ── Sandhya Aarti: evening-sky blue and brass gold, Cinzel ────────────────────────── */
+  [data-skin='sandhya-aarti'] {
+    --font-display: var(--font-cinzel, 'Cinzel'), Georgia, serif;
+    --font-body: var(--font-raleway, 'Raleway'), system-ui, sans-serif;
+    --display-weight: 400;
+    --display-style: normal;
+    --display-tracking: 0.04em;
+    --radius-control: 0px;
+    --radius-image: 2px;
+    --aspect-category: 4 / 5;
+
+    --bg: #f4f1ea;
+    --surface: #fbf9f4;
+    --hairline: #d6cfc0;
+    --text: #101838;
+    --muted: #4a5878;
+    --subtle: #5c6a8a;
+    --accent: #1a2860;
+    --accent-contrast: #efe6d2;
+    --hero-bg: #0d1840;
+    --hero-text: #e4d8c0;
+    --hero-muted: #a3afcb;
+  }
+  @media (prefers-color-scheme: dark) {
+    [data-skin='sandhya-aarti']:not([data-theme='light']) {
+      --bg: #080e28;
+      --surface: #111c44;
+      --hairline: #26326b;
+      --text: #e4d8c0;
+      --muted: #a3afcb;
+      --subtle: #7f8db0;
+      --accent: #d4af37;
+      --accent-contrast: #080e28;
+      --success: #7fc29a;
+      --warning: #e0c060;
+      --critical: #f28b7d;
+      --hero-bg: #0d1840;
+      --hero-text: #e4d8c0;
+      --hero-muted: #a3afcb;
+    }
+  }
+  [data-skin='sandhya-aarti'][data-theme='dark'] {
+    --bg: #080e28;
+    --surface: #111c44;
+    --hairline: #26326b;
+    --text: #e4d8c0;
+    --muted: #a3afcb;
+    --subtle: #7f8db0;
+    --accent: #d4af37;
+    --accent-contrast: #080e28;
+    --success: #7fc29a;
+    --warning: #e0c060;
+    --critical: #f28b7d;
+    --hero-bg: #0d1840;
+    --hero-text: #e4d8c0;
+    --hero-muted: #a3afcb;
+  }
+}

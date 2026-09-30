@@ -1,0 +1,177 @@
+/* Admin customers: masked profile header, addresses, reveal dialog and DPDP actions. */
+/* ---- header ----------------------------------------------------------------------------------- */
+.admin-customer-header {
+  align-items: flex-start;
+}
+
+.admin-customer-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.5rem;
+  margin: 0.5rem 0 0;
+}
+
+.admin-customer-contact > div {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.admin-customer-contact dt {
+  color: var(--muted);
+  font-size: var(--admin-text-small);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.admin-customer-contact dd {
+  margin: 0;
+}
+
+.admin-chip-row {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin: 0.6rem 0 0;
+}
+
+.admin-customer-actions {
+  flex-wrap: wrap;
+}
+
+.admin-customer-actions .admin-form-status {
+  margin: 0;
+}
+
+.admin-customer-search {
+  grid-template-columns: minmax(16rem, 32rem) auto;
+  align-items: start;
+}
+
+.admin-customer-search .admin-row-actions {
+  padding-top: 1.55rem;
+}
+
+/* ---- sections --------------------------------------------------------------------------------- */
+.admin-customer-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 0 2rem;
+}
+
+.admin-customer-layout .admin-section:nth-child(3),
+.admin-customer-layout .admin-section:nth-child(4) {
+  grid-column: 1 / -1;
+}
+
+/* ---- addresses -------------------------------------------------------------------------------- */
+.admin-address-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-address-card {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+}
+
+.admin-address-card strong {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.admin-address-default {
+  font-weight: 500;
+}
+
+/* ---- reveal ----------------------------------------------------------------------------------- */
+.admin-reveal-countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0 0.75rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--warning);
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--warning) 12%, transparent);
+  font-size: var(--admin-text-small);
+}
+
+.admin-reveal-countdown .admin-tabular {
+  font-weight: 600;
+}
+
+.admin-pii-list {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.35rem 1rem;
+  margin: 0 0 0.75rem;
+}
+
+.admin-pii-list > div {
+  display: contents;
+}
+
+.admin-pii-list dt {
+  color: var(--muted);
+}
+
+.admin-pii-list dd {
+  margin: 0;
+  word-break: break-all;
+}
+
+.admin-hint-block {
+  margin: 0 0 0.75rem;
+  padding: 0.5rem 0.65rem;
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  font-size: var(--admin-text-small);
+}
+
+/* ---- DPDP ------------------------------------------------------------------------------------- */
+.admin-dpdp {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.admin-dpdp-action {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0.875rem;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+}
+
+.admin-dpdp-action .admin-muted,
+.admin-dpdp-action .admin-error {
+  margin: 0.15rem 0 0;
+  max-width: 40rem;
+}
+
+.admin-dpdp-title {
+  margin: 0;
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .admin-dpdp-action,
+  .admin-customer-search {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .admin-customer-search .admin-row-actions {
+    padding-top: 0;
+  }
+}

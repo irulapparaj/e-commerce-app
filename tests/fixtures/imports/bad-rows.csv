@@ -1,0 +1,7 @@
+sku,name,category_slug,description_text,how_to_use,specifications,hsn_code,gst_rate,tags,is_active,is_featured,variant_sku,variant_label,price_inr,compare_at_price_inr,stock,weight_grams,low_stock_threshold,meta_title,meta_description
+IMP-BAD-1,Bad Price,agarbatti,Desc,,,3307,5,,true,,IMP-BAD-1-A,A,12,,10,20,,,
+IMP-BAD-1,Bad Price Different Name,agarbatti,Desc,,,3307,5,,true,,IMP-BAD-1-B,B,12,,10,20,,,
+IMP-BAD-2,Unknown Category,no-such-category,Desc,,,3307,5,,true,,IMP-BAD-2-A,A,12,,10,20,,,
+IMP-BAD-3,Duplicate Variant,agarbatti,Desc,,,3307,5,,true,,IMP-BAD-1-A,A,12,,10,20,,,
+IMP-BAD-4,Bad Stock And Gst,agarbatti,Desc,,,3307,28,,maybe,,IMP-BAD-4-A,A,12,,-3,20,,,
+IMP-OK-5,Fine Row,agarbatti,Desc,,,3307,5,,true,,IMP-OK-5-A,A,12,,10,20,,,

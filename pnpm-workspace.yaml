@@ -1,0 +1,15 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+
+allowBuilds:
+  '@prisma/client': true
+  '@prisma/engines': true
+  '@swc/core': true
+  esbuild: true
+  prisma: true
+  unrs-resolver: true
+  '@parcel/watcher': false
+  cpu-features: false
+  protobufjs: false
+  ssh2: false

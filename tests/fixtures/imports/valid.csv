@@ -1,0 +1,6 @@
+﻿sku,name,category_slug,description_text,how_to_use,specifications,hsn_code,gst_rate,tags,is_active,is_featured,variant_sku,variant_label,price_inr,compare_at_price_inr,stock,weight_grams,low_stock_threshold,meta_title,meta_description
+IMP-AG-001,Import Sandalwood Agarbatti,agarbatti,Hand-rolled sandalwood incense sticks.,Light the tip and let it glow.,Quantity=20 sticks|Burn time=45 min,3307,5,sandalwood|daily,true,true,IMP-AG-001-20,20 sticks,80.50,99,120,40,5,Sandalwood Agarbatti,Hand-rolled sandalwood incense from Puja Essentials
+IMP-AG-001,Import Sandalwood Agarbatti,agarbatti,Hand-rolled sandalwood incense sticks.,Light the tip and let it glow.,Quantity=20 sticks|Burn time=45 min,3307,5,sandalwood|daily,true,true,IMP-AG-001-50,50 sticks,180,,60,95,5,Sandalwood Agarbatti,Hand-rolled sandalwood incense from Puja Essentials
+IMP-CM-002,Import Pure Camphor,agarbatti,"Pure camphor tablets, slow burning.",,Quantity=50 g,2914,18,camphor,true,,IMP-CM-002-50,50 g,60,,200,55,10,,
+IMP-CM-002,Import Pure Camphor,agarbatti,"Pure camphor tablets, slow burning.",,Quantity=50 g,2914,18,camphor,true,,IMP-CM-002-100,100 g,110,130,0,105,10,,
+IMP-DH-003,"Import ""Loban"" Dhoop",agarbatti,"=HYPERLINK(""http://evil.example"")",,,3307,5,,false,,IMP-DH-003-1,Pack of 12,45,,30,80,,,
